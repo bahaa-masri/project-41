@@ -210,28 +210,28 @@ section[id] {
     scroll-margin-top: calc(var(--topbar-height) + 12px);
 }
 
-#about,
+#wrap1,
 #brands,
 #join,
 #csr,
 #contact {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 110px;
 }
 
-#about {
-    scroll-margin-top: 70px;
+#wrap1 {
+    scroll-margin-top: 190px;
 }
 
 #brands {
-    scroll-margin-top: 80px;
+    scroll-margin-top: 160px;
 }
 
 #csr {
-    scroll-margin-top: 70px;
+    scroll-margin-top: 140px;
 }
 
 #join {
-    scroll-margin-top: 40px;
+    scroll-margin-top: 120px;
 }
 
 @media(max-width:950px) {

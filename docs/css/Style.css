@@ -136,16 +136,19 @@ body {
 .wrap1 {
   width: 65%;
   max-width: 1200px;
-  min-height: 500px;
-  margin: 0 auto;
+  min-height: 800px;
+  margin: 40px auto;
   display: flex;
   gap: 40px;
   align-items: flex-start;
 
   display: flex;
   /* flex-direction: column; */
-  align-items: center;
+  align-items: start;
   justify-content: center;
+
+  /* position: sticky;
+  top: 0px; */
 }
 
 .wrap1>div {
@@ -205,6 +208,121 @@ body {
   line-height: 1.7;
   padding-bottom: 15px;
 }
+
+
+
+
+
+
+
+
+/* .images-stack {
+  width: 100%;
+}
+
+.images-stack .img-title {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  text-align: start;
+}
+
+.images-stack img {
+  width: 100%;
+  aspect-ratio: 22/9;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.images-stack img:last-child {
+  margin-bottom: 0;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.images-stack {
+  width: 100%;
+}
+
+.images-stack .img-title {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  text-align: start;
+
+}
+
+.images-stack img {
+  width: 100%;
+  height: 200px;
+  object-fit: fill;
+  object-position: center;
+  display: block;
+  margin-bottom: 15px;
+  /* image-rendering: crisp-edges; */
+  /* image-rendering: pixelated; */
+}
+
+.images-stack img:last-child {
+  margin-bottom: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .partners-wrap {
   width: 70%;
