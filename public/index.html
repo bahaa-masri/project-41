@@ -1,0 +1,502 @@
+<!--
+  Fernand Hosri Group — Demo Layout (Commented Version)
+  Purpose: Demo landing layout with partners carousel, CSR section, and contact footer.
+  Notes: Professional inline comments were added to clarify structure, accessibility, and behaviour.
+  Keep asset files (images, CSS) in the same folder or update paths as needed.
+-->
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fernand Hosri Group — Demo Layout</title>
+  <link rel="icon" type="image/png" href="img/fhg-h-logo.png" />
+
+  <!--
+      Stylesheets:
+      - Style.css: main layout & components
+      - Topbar.css: styles specifically for the top navigation
+      Keep CSS separate for maintainability and easier overrides.
+    -->
+  <link rel="stylesheet" href="css/join-us.css" />
+  <link rel="stylesheet" href="css/Style.css" />
+  <link rel="stylesheet" href="css/Topbar.css" />
+
+
+  <!-- Google font used across the site for a clean, professional UI -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+
+</head>
+
+<body>
+  <!--
+      Page wrapper (page-1-2) contains two main visual sections (page-1, page-2).
+      Using semantic and ARIA attributes improves accessibility for screen readers.
+    -->
+  <div class="page-1-2">
+
+    <!-- Header: company logos / primary branding -->
+
+
+    <!--
+          Topbar navigation: keep links in a logical order. Using role="navigation" and
+          aria-label helps assistive technologies identify the main menu quickly.
+        -->
+    <nav class="container topbar" role="navigation" aria-label="Main navigation">
+
+      <div class="topbar-inner">
+        <div class="site-header">
+          <div class="header-inner">
+            <!-- Left and right logos: use descriptive alt text for accessibility -->
+            <img src="img/fhg-h-logo.png" alt="FH Group Right Logo" class="logo logo-right" />
+            <img src="img/fhg-logo.png" alt="FH Group Left Logo" class="logo logo-left" />
+          </div>
+        </div>
+
+        <!-- Desktop nav (keep as you had it) -->
+        <div class=" desktop-nav nav-links" role="menubar" aria-label="Primary" aria-hidden="false">
+          <a href="#about" role="menuitem">About Us</a>
+          <a href="#join" role="menuitem">Join Us</a>
+          <a href="#brands" role="menuitem">Sister companies</a>
+          <a href="#csr" role="menuitem">Our CSR</a>
+          <a href="#contact" role="menuitem">Contact</a>
+        </div>
+        <!-- Mobile menu button -->
+        <button class="hamburger" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="overlay" id="overlay" tabindex="-1" aria-hidden="true"></div>
+
+    <aside class="mobile-drawer" id="mobile-menu" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="drawer-header">
+        <div class="drawer-header-contant" style="display:flex;align-items:center;gap:10px">
+          <!-- <div class="logo" style="width:40px;height:40px">MH</div> -->
+          <img src="img/fhg-h-logo.png" alt="FH Group Right Logo" class="logoFM" />
+          <div class="drawer-header-text">
+            <div class="site-title">Hosri Group</div>
+            <!-- <div class="site-tag">Menu</div> -->
+          </div>
+        </div>
+        <button id="close-drawer" aria-label="Close menu"
+          style="background:transparent;border:0;color:inherit;font-size:20px;cursor:pointer">✕</button>
+      </div>
+
+      <nav class="drawer-nav" aria-label="Mobile navigation">
+        <a href="#about" role="menuitem">About Us</a>
+        <a href="#join" role="menuitem">Join Us</a>
+        <a href="#brands" role="menuitem">Sister companies</a>
+        <a href="#csr" role="menuitem">Our CSR</a>
+        <a href="#contact" role="menuitem">Contact</a>
+      </nav>
+
+      <!-- <div class="drawer-cta">
+            <a class="btn" href="#">Sign up</a>
+        </div> -->
+    </aside>
+    <!-- <main class="container" id="main-content"> -->
+
+    <!--
+          Section: page-1
+          Contains: About text + partners carousel. Use descriptive aria-label for assistive tools.
+        -->
+    <section class="page page-1" id="page1" aria-label="Main section with background 1">
+
+      <!-- About block: short company description. Keep copy concise and factual. -->
+      <div class="wrap1">
+        <div id="about" class="about-wrap">
+          <h1 class="about-title">About Us</h1>
+          <h3>Founded in 1966 - Fernand Hosri Group Holding</h3>
+          <p class="about-text">
+            <!-- Founded in 1966 - Fernand Hosri Group Holding  -->
+            <!-- <br> -->
+            We ares a multinational enterprise active throughout the MENA region, with offices located in
+            Lebanon, UAE,
+            and KSA.
+            <br>
+            Our reach spans local and global markets, with expertise in Telecom, Security, Automation,
+            Communication,
+            Renewable
+            Energy, FMCG Retail and Distribution, Office Supplies and Equipment, Insurance Brokerage and
+            Consultancy, Fire
+            Safety,
+            and Property Management.
+            <br>
+            Across every sector, we stay true to one promise: quality first.
+          </p>
+        </div>
+        <div class="News ">
+          <h1 class="about-title">News</h1>
+          <p>Latest updates will appear here. k;oiwef j fio ohkb ionbsdobn oibsdoih jokjnb nscn kajshu ibxi j inhij
+            blajxh lasb jinljbbn nlasjh hasklj lsdknasnc dskjhcasn jnkljns knas;ln asnn ks;lknasn sknd;lasndas fghjkl
+            ghs h h i uibasldjbh iashlash ljbsadjklb basjdb jbsb
+          </p>
+        </div>
+      </div>
+
+      <!--
+              Partners / Brands carousel. The visual row is horizontally scrollable and controls are provided.
+              Each partner-card should be a consistent, focusable unit for keyboard users.
+            -->
+      <div id="brands" class="partners-wrap">
+        <!-- Scroll buttons provide quick navigation for keyboard / pointer users -->
+        <button class="scroll-btn left" aria-label="Scroll left"></button>
+        <div class="partners-row">
+
+          <!-- Example partner card (small). Keep link targets explicit and include alt text. -->
+          <div class="partner-card small">
+            <a href="https://sacotel.com">
+              <img class="img-small" src="img/sacotel-Logo.png" alt="Sacotel" />
+            </a>
+            <div class="partner-text">
+              <div class="partner-description">
+                Exclusive ME representative of Urmet Group,
+
+                Integrating building communication, automation, & security solutions.
+                <br>
+              </div>
+              <a href="https://sacotel.com" class="partner-click-here">Visit our website</a>
+            </div>
+          </div>
+
+          <!-- Larger card demonstrates variety in card sizes for the carousel -->
+          <!-- <div class="partner-card large">
+                        <a href="https://sacotelurmet.com">
+                            <img src="img/s_urmet-Logo.png" alt="Sacotel Urmet" />
+                        </a>
+                        <div class="partner-text">
+                            <div class="partner-description">
+                                Exclusive ME representative of Urmet Group,
+                                
+                                Integrating building communication, automation, & security solutions.
+                            </div>
+                            <a href="https://sacotelurmet.com" class="partner-click-here">Visit our website</a>
+                        </div>
+                    </div> -->
+
+          <!-- Repeatable partner-card pattern: keep markup consistent for easy styling and JS control -->
+          <div class="partner-card">
+            <a href="https://hosri-insurance-services.com/">
+              <img src="img/HIS-Logo.gif" alt="HIS" />
+            </a>
+            <div class="partner-text">
+              <div class="partner-description">
+                Insurance brokerage and advisory services specializing in risk evaluation, insurance
+                placement, and
+                claims support
+                <br>
+              </div>
+              <a href="https://hosri-insurance-services.com/" class="partner-click-here">Visit our
+                website</a>
+
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <a href="https://7express.store">
+              <img src="img/7express-Logo.png" alt="7express Store" />
+            </a>
+
+            <div class="partner-text">
+              <div class="partner-description">
+                <div class="text-preview">
+                  A community grocery store offering daily essentials, fresh platters, sandwiches, and
+                  delivery service.
+                </div>
+              </div>
+              <a href="https://7express.store" class="partner-click-here">Visit our website</a>
+
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <a href="https://www.sacotelznshine.com">
+              <img src="img/s_znshine-logo.png" alt="Sacotel Znshine" />
+            </a>
+
+            <div class="partner-text">
+              <div class="partner-description">
+                <div class="text-preview">
+                  Supplying Tier-1 solar PV modules and delivers turnkey solar power plants and solar
+                  farms </div>
+              </div>
+              <a href="https://www.sacotelznshine.com" class="partner-click-here">Visit our
+                website</a>
+
+            </div>
+          </div>
+
+          <div class="partner-card medium">
+            <a href="">
+              <img class="img-medium" src="img/OfficeOnLine-Logo.gif" alt="OfficeOnLine" />
+            </a>
+
+            <div class="partner-text">
+              <div class="partner-description">
+                <div class="text-preview">
+                  Centralized supplier of office supplies, equipment, and related services. </div>
+              </div>
+              <a href="" class="partner-click-here">Visit our website</a>
+
+            </div>
+          </div>
+
+
+          <div class="partner-card xsmall">
+            <a href="https://mese-co.com/">
+              <img class="img-xsmall" src="img/MESE-logo.png" alt="MESE" />
+            </a>
+
+            <div class="partner-text">
+              <div class="partner-description">
+                <div>
+                  <div class="text-preview">
+                    Supplies, designs, installs, services, and maintains fire protection, safety,
+                    systems for facilities
+                    in KSA
+                  </div>
+                </div>
+              </div>
+              <br>
+              <a href="https://mese-co.com/" class="partner-click-here">Visit our website</a>
+
+            </div>
+          </div>
+
+        </div>
+        <button class="scroll-btn right" aria-label="Scroll right"></button>
+      </div>
+
+    </section>
+
+    <!--
+          Section: page-2 contains CSR cards and footer contact details.
+          Keep CSR short but meaningful — link to full pages for long descriptions.
+        -->
+    <section class="page page-2" id="page2" aria-label="Secondary section with background 2">
+
+      <div id="csr" class="csr-wrap">
+        <h2 class="csr-title">Our CSR</h2>
+
+        <div class="csr-cards">
+
+          <div class="csr-card">
+            <a href="https://eywa-lb.org/">
+              <img src="img/eywa-logo.png" alt="Eywa" />
+            </a>
+
+            <div class="csr-text">
+              <div class="csr-description">
+                <div class="csr-text-preview">
+                  Empowering Young Women Association works to improve young women’s access to
+                  education, skills, and
+                  employment
+                  opportunities through targeted programs and support services.
+                </div>
+
+                <a href="https://eywa-lb.org/" class="csr-click-here">Visit our website</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="csr-card">
+            <a href="https://unleashyourcreativitylb.com/">
+              <img src="img/unleash-logo.png" alt="Unleash" />
+            </a>
+
+            <div class="csr-text">
+              <div class="csr-description">
+                <div class="csr-text-preview">
+                  A student competition that engages students from nine of Lebanon’s leading
+                  universities in developing
+                  practical
+                  solutions to real business challenges.
+                </div>
+
+                <a href="https://unleashyourcreativitylb.com/" class="csr-click-here">Visit our
+                  website</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="join" class="join-us-component">
+        <h2 class="csr-title">Join Us</h2>
+        <section class="join-wrap" aria-labelledby="join-title">
+
+          <div class="panel info" id="company-info">
+            <h2 id="join-title">Join Us</h2>
+            <p class="lead">We’re a small team building reliable, maintainable software...</p>
+
+            <div aria-live="polite">
+              <h3 style="font-size:1rem;margin:14px 0 8px 0">Open Positions</h3>
+
+              <div class="jobs" id="jobs-list">
+                <article class="job" data-role="frontend">
+                  <div class="meta">
+                    <h4>Frontend Engineer</h4>
+                    <small>Remote — Full-time</small>
+                  </div>
+                  <div class="pill">Experienced</div>
+                </article>
+
+                <article class="job" data-role="backend">
+                  <div class="meta">
+                    <h4>Backend Engineer</h4>
+                    <small>On-site (Beirut) — 6+ months</small>
+                  </div>
+                  <div class="pill">Backend</div>
+                </article>
+
+                <article class="job" data-role="intern">
+                  <div class="meta">
+                    <h4>Intern - Dev</h4>
+                    <small>Part-time — Internship</small>
+                  </div>
+                  <div class="pill">Entry</div>
+                </article>
+              </div>
+
+              <p class="note" style="margin-top:12px">
+                Common items in a "Join Us" section...
+              </p>
+            </div>
+          </div>
+
+
+
+          <aside class="panel" aria-labelledby="apply-title">
+            <h2 id="apply-title">Apply — Send CV</h2>
+
+            <form id="apply-form" method="POST" action="apply.php" enctype="multipart/form-data" novalidate>
+              <div>
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" required />
+              </div>
+
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required />
+              </div>
+
+              <div>
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" />
+              </div>
+
+              <div>
+                <label for="position">Position</label>
+                <select id="position" name="position">
+                  <option value="">— Select —</option>
+                  <option value="frontend">Frontend Engineer</option>
+                  <option value="backend">Backend Engineer</option>
+                  <option value="devops">DevOps</option>
+                  <option value="intern">Intern</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="cover">Short cover note (optional)</label>
+                <textarea id="cover" name="cover"></textarea>
+              </div>
+
+              <div>
+                <label>Upload CV</label>
+                <div id="drop" class="file-drop" tabindex="0" role="button"
+                  aria-label="Upload CV (click or drag & drop)">
+                  <!-- خلي input مخفي زي ما بدّك -->
+                  <input id="cv" name="cv" type="file" accept=".pdf,.doc,.docx" hidden />
+                  <strong class="draganddrop">Drag & drop your CV here</strong>
+                  <div class="file-info">or click to browse</div>
+                </div>
+                <div id="file-status" class="file-info"></div>
+                <div id="file-error" class="error"></div>
+              </div>
+
+              <div class="actions">
+                <!-- خلي الزر معطل بالافتراضي -->
+                <button class="btn" type="submit" disabled>Send Application</button>
+              </div>
+
+              <p class="note">Tip: Validate again on server…</p>
+            </form>
+          </aside>
+
+
+
+        </section>
+
+      </div>
+
+
+      <!-- Footer: company location and contact details. Keep contact details up-to-date. -->
+      <footer id="contact" class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-col">
+            <h4>Location</h4>
+            <p>
+              📍
+              <a class="social-item"
+                href="https://www.google.com/maps/search/?api=1&query=162%20Badaro%20Street%202058162%20Beirut%20Lebanon"
+                target="_blank" rel="noopener noreferrer" aria-label="Open 162 Badaro Street in Google Maps">
+                <span>162 Badaro Street 2058162 &nbsp; Beirut – Lebanon</span>
+              </a>
+            </p>
+            <p>
+              📍
+              <a class="social-item"
+                href="https://www.google.com/maps/search/?api=1&query=Dubai%20Airport%20Free%20Zone%206EA%20110%20Dubai%20UAE"
+                target="_blank" rel="noopener noreferrer" aria-label="Open Dubai Airport Free Zone in Google Maps">
+                <span>Dubai Airport Free Zone 6EA 110</span>
+              </a>
+            </p>
+            <p>
+              📍<a class="social-item" href="https://www.google.com/maps/search/?api=1&query=Jeddah%20Saudi%20Arabia"
+                target="_blank" rel="noopener noreferrer" aria-label="Open Jeddah in Google Maps">
+                <span>Jeddah – Saudi Arabia</span>
+              </a>
+            </p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Social</h4>
+            <div class="social-links">
+              <a class="social-item" href="https://www.linkedin.com/company/40817162/" target="_blank"
+                rel="noopener noreferrer">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn">
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Contact Information</h4>
+            <p>
+              <a class="social-item" href="tel:+9611386868" aria-label="Call +961 1 38 68 68"><span>Tel
+                  +961 1 38 68
+                  68</span></a><br>
+              Fax +961 1 38 68 68<br>
+              31 317508, Dubai – UAE<br>
+              <a class="social-item" href="tel:+971501042550" aria-label="Call +971 50 104 2550"><span>Tel
+                  +971 50 104
+                  2550</span></a>
+            </p>
+          </div>
+        </div>
+      </footer>
+
+
+    </section>
+
+  </div>
+  <script src="js/main.js" defer></script>
+</body>
+
+</html>
