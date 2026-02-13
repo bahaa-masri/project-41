@@ -1233,6 +1233,7 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
   border-radius: 8px;
   background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
   box-sizing: border-box;
+  height: 450px;
 }
 
 /* fallback for older browsers that don't support aspect-ratio */
@@ -1342,10 +1343,10 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 
 
 
-
+/* 
 .ViewProfileButton {
   display: none
 }
 .PrimaryCTA{
   display: none
-}
+} */
