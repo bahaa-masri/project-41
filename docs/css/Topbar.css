@@ -152,7 +152,7 @@ html {
 
 .nav-links {
     display: flex;
-    gap: 22px;
+    gap: 0px;
     align-items: center;
     /* display: inline-block; */
 }
@@ -164,7 +164,7 @@ html {
     letter-spacing: .2px;
     /* font-size: 24px; */
     font-size: clamp(16px, 1.2vw, 24px);
-    padding: 8px 6px;
+    padding: 0.5em clamp(10px, 1.3vw, 28px);
     border-radius: 6px;
 
     display: inline-block;
@@ -215,7 +215,7 @@ section[id] {
 #join,
 #csr,
 #contact {
-    scroll-margin-top: 110px;
+    scroll-margin-top: 230px;
 }
 
 #wrap1 {
@@ -223,7 +223,7 @@ section[id] {
 }
 
 #brands {
-    scroll-margin-top: 30px;
+    scroll-margin-top: 170px;
 }
 
 #csr {
@@ -234,14 +234,21 @@ section[id] {
     scroll-margin-top: 140px;
 }
 
+
 @media(max-width:950px) {
+
     .nav-links {
         display: none;
     }
 
     .topbar-inner {
         justify-content: space-between;
+        gap: 0px;
     }
+
+    /* .logo-left {
+        height: clamp(35px, 3vw, 45px);
+    } */
 }
 
 .brand {
@@ -285,7 +292,8 @@ nav.desktop-nav a:hover {
     border: 1px solid var(--white-04);
     /* background: transparent; */
     background: var(--titlecolor);
-    cursor: pointer
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 .hamburger .bar {
@@ -470,4 +478,59 @@ button:focus {
 
 .mobile-drawer {
     position: fixed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:425px) {
+
+    .hamburger {
+        width: 40px;
+        height: 40px;
+
+    }
+
+    .logo-left {
+        height: 30px;
+    }
+
+}
+
+@media(max-width:375px) {
+
+    .hamburger {
+        width: 36x;
+        height: 36px;
+
+    }
+
+    .logo-left {
+        height: 27px;
+    }
+
+}
+
+@media(max-width:320px) {
+
+    .hamburger {
+        width: 36px;
+        height: 36px;
+
+    }
+
+    .logo-left {
+        height: 25px;
+    }
+
 }

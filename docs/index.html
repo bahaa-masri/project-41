@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="css/join-us.css" />
   <link rel="stylesheet" href="css/Style.css" />
   <link rel="stylesheet" href="css/Topbar.css" />
-
+ <link rel="stylesheet" href="instagram-section.css">
 
   <!-- Google font used across the site for a clean, professional UI -->
   <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
@@ -59,9 +59,9 @@
         <!-- Desktop nav (keep as you had it) -->
         <div class=" desktop-nav nav-links" role="menubar" aria-label="Primary" aria-hidden="false">
           <a href="#wrap1" role="menuitem">About Us</a>
-          <a href="#join" role="menuitem">Join Us</a>
           <a href="#brands" role="menuitem">Sister companies</a>
-          <a href="#csr" role="menuitem">Our CSR</a>
+          <a href="#csr" role="menuitem">CSR</a>
+          <a href="#join" role="menuitem">Join Our Team</a>
           <a href="#contact" role="menuitem">Contact</a>
         </div>
         <!-- Mobile menu button -->
@@ -89,9 +89,9 @@
 
       <nav class="drawer-nav" aria-label="Mobile navigation">
         <a href="#wrap1" role="menuitem">About Us</a>
-        <a href="#join" role="menuitem">Join Us</a>
-        <a href="#brands" role="menuitem">Sister companies</a>
+        <a href="#brands" role="menuitem">Sister Companies</a>
         <a href="#csr" role="menuitem">Our CSR</a>
+        <a href="#join" role="menuitem">Join Our Team</a>
         <a href="#contact" role="menuitem">Contact</a>
       </nav>
 
@@ -115,7 +115,7 @@
           <p class="about-text">
             <!-- Founded in 1966 - Fernand Hosri Group Holding  -->
             <!-- <br> -->
-            We ares a multinational enterprise active throughout the MENA region, with offices located in
+            We are a multinational enterprise active throughout the MENA region, with offices located in
             Lebanon, UAE,
             and KSA.
             <br>
@@ -127,15 +127,11 @@
             Safety,
             and Property Management.
             <br>
-            Across every sector, we stay true to one promise: quality first.
+            Across every sector, we stay true to one promise: <b>Quality First.</b>
           </p>
         </div>
         <div class="News ">
           <h1 class="about-title">News</h1>
-          <!-- <p>Latest updates will appear here. k;oiwef j fio ohkb ionbsdobn oibsdoih jokjnb nscn kajshu ibxi j inhij
-            blajxh lasb jinljbbn nlasjh hasklj lsdknasnc dskjhcasn jnkljns knas;ln asnn ks;lknasn sknd;lasndas fghjkl
-            ghs h h i uibasldjbh iashlash ljbsadjklb basjdb jbsb
-          </p> -->
           <div class="images-stack">
             <h3 class="img-title">Title 1</h3>
             <img src="img/img1.jpeg" alt="Image 1">
@@ -143,9 +139,55 @@
             <h3 class="img-title">Title 2</h3>
             <img src="img/img2.jpeg" alt="Image 2">
           </div>
-
         </div>
+
+         <section class="instagram-section" aria-labelledby="ig-title">
+            <div class="instagram-card">
+              <div class="instagram-head">
+                <div>
+                  <div class="title" id="ig-title">عرض Reel من إنستاغرام</div>
+                  <div class="sub">مثال لتضمين Reel — إذا ما ظهر المحتوى استخدم الرابط أو الزر أسفل</div>
+                </div>
+              </div>
+
+              <!-- wrapper responsive -->
+              <div class="instagram-embed-wrapper" id="instagram-embed-wrapper">
+                <!-- البلوكبايت النظيف: استبدل الرابط لو بدك Reel ثاني -->
+                <blockquote
+                  class="instagram-media"
+                  data-instgrm-permalink="https://www.instagram.com/reel/DJ_wN1vswCo/"
+                  data-instgrm-version="14"
+                  style="margin:0 auto; width:100%;">
+                </blockquote>
+
+                <!-- fallback (يظهر لو التضمين فشل) -->
+                <div class="instagram-fallback" id="instagram-fallback" aria-hidden="true">
+                  <div class="fallback-box">
+                    <div class="fallback-thumb" role="img" aria-label="Instagram Reel preview">
+                      <!-- لو عندك صورة مصغرة حطها هنا كـ <img src="THUMB_URL"> -->
+                      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2v20M2 12h20" stroke="#cccccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <p class="fallback-text">لم يتم تحميل التضمين من Instagram. يمكنك فتح المنشور مباشرة على Instagram:</p>
+                    <div class="fallback-action">
+                      <a id="ig-open-link" href="https://www.instagram.com/reel/DJ_wN1vswCo/" target="_blank" rel="noopener noreferrer">افتح الـ Reel على Instagram</a>
+                    </div>
+                    <p class="note">ملاحظة: إذا كان الحساب خاص (private) أو منعت سياسات الموقع تحميل السكربت، التضمين لن يعمل.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
       </div>
+
+
+
+
+
+
+
+
 
       <!--
               Partners / Brands carousel. The visual row is horizontally scrollable and controls are provided.
@@ -168,7 +210,7 @@
                 Integrating building communication, automation, & security solutions.
                 <br>
               </div>
-              <a href="https://sacotel.com" class="partner-click-here">Visit our website</a>
+              <a href="https://sacotel.com" class="partner-click-here">Learn More</a>
             </div>
           </div>
 
@@ -183,7 +225,7 @@
                                 
                                 Integrating building communication, automation, & security solutions.
                             </div>
-                            <a href="https://sacotelurmet.com" class="partner-click-here">Visit our website</a>
+                            <a href="https://sacotelurmet.com" class="partner-click-here">Learn More</a>
                         </div>
                     </div> -->
 
@@ -199,8 +241,7 @@
                 claims support
                 <br>
               </div>
-              <a href="https://hosri-insurance-services.com/" class="partner-click-here">Visit our
-                website</a>
+              <a href="https://hosri-insurance-services.com/" class="partner-click-here">Learn More</a>
 
             </div>
           </div>
@@ -217,7 +258,7 @@
                   delivery service.
                 </div>
               </div>
-              <a href="https://7express.store" class="partner-click-here">Visit our website</a>
+              <a href="https://7express.store" class="partner-click-here">Learn More</a>
 
             </div>
           </div>
@@ -233,8 +274,7 @@
                   Supplying Tier-1 solar PV modules and delivers turnkey solar power plants and solar
                   farms </div>
               </div>
-              <a href="https://www.sacotelznshine.com" class="partner-click-here">Visit our
-                website</a>
+              <a href="https://www.sacotelznshine.com" class="partner-click-here">Learn More</a>
 
             </div>
           </div>
@@ -249,7 +289,7 @@
                 <div class="text-preview">
                   Centralized supplier of office supplies, equipment, and related services. </div>
               </div>
-              <a href="" class="partner-click-here">Visit our website</a>
+              <a href="" class="partner-click-here">Learn More</a>
 
             </div>
           </div>
@@ -271,7 +311,7 @@
                 </div>
               </div>
               <br>
-              <a href="https://mese-co.com/" class="partner-click-here">Visit our website</a>
+              <a href="https://mese-co.com/" class="partner-click-here">Learn More</a>
 
             </div>
           </div>
@@ -289,7 +329,7 @@
     <section class="page page-2" id="page2" aria-label="Secondary section with background 2">
 
       <div id="csr" class="csr-wrap">
-        <h2 class="csr-title">Our CSR</h2>
+        <h2 class="csr-title">Our CSR Initiatives</h2>
 
         <div class="csr-cards">
 
@@ -307,7 +347,7 @@
                   opportunities through targeted programs and support services.
                 </div>
 
-                <a href="https://eywa-lb.org/" class="csr-click-here">Visit our website</a>
+                <a href="https://eywa-lb.org/" class="csr-click-here">Learn More</a>
               </div>
             </div>
           </div>
@@ -336,7 +376,7 @@
       </div>
 
       <div id="join" class="join-us-component">
-        <h2 class="csr-title">Join Us</h2>
+        <h2 class="csr-title join-title">Join Our Team</h2>
         <section class="join-wrap" aria-labelledby="join-title">
 
           <div class="panel info" id="company-info">
@@ -450,25 +490,24 @@
           <div class="footer-col">
             <h4>Location</h4>
             <p>
-              📍
+
               <a class="social-item"
                 href="https://www.google.com/maps/search/?api=1&query=162%20Badaro%20Street%202058162%20Beirut%20Lebanon"
                 target="_blank" rel="noopener noreferrer" aria-label="Open 162 Badaro Street in Google Maps">
-                <span>162 Badaro Street 2058162 &nbsp; Beirut – Lebanon</span>
+                📍<span>162 Badaro Street 2058162 &nbsp; Beirut – Lebanon</span>
               </a>
             </p>
             <p>
-              📍
               <a class="social-item"
                 href="https://www.google.com/maps/search/?api=1&query=Dubai%20Airport%20Free%20Zone%206EA%20110%20Dubai%20UAE"
                 target="_blank" rel="noopener noreferrer" aria-label="Open Dubai Airport Free Zone in Google Maps">
-                <span>Dubai Airport Free Zone 6EA 110</span>
+                📍<span>Dubai Airport Free Zone 6EA 110</span>
               </a>
             </p>
             <p>
-              📍<a class="social-item" href="https://www.google.com/maps/search/?api=1&query=Jeddah%20Saudi%20Arabia"
+              <a class="social-item" href="https://www.google.com/maps/search/?api=1&query=Jeddah%20Saudi%20Arabia"
                 target="_blank" rel="noopener noreferrer" aria-label="Open Jeddah in Google Maps">
-                <span>Jeddah – Saudi Arabia</span>
+                📍<span>Jeddah – Saudi Arabia</span>
               </a>
             </p>
           </div>
@@ -491,20 +530,26 @@
                   +961 1 38 68
                   68</span></a><br>
               Fax +961 1 38 68 68<br>
-              31 317508, Dubai – UAE<br>
+              Dubai – UAE , 31 317508 <br>
               <a class="social-item" href="tel:+971501042550" aria-label="Call +971 50 104 2550"><span>Tel
                   +971 50 104
                   2550</span></a>
             </p>
           </div>
         </div>
+        <!-- <div class="footer-inner-2">
+          <img src="img/signature.png" alt="Unleash" />
+        </div> -->
       </footer>
-
+      <section class="footer2">
+        <img src="img/signature.png" alt="Unleash signature" loading="lazy">
+      </section>
 
     </section>
 
   </div>
   <script src="js/main.js" defer></script>
+   <script src="instagram-section.js" defer></script>
 </body>
 
 </html>

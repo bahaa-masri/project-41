@@ -8,6 +8,7 @@
     /* --join-text: #505973; */
     --join-text: var(--Sbleu);
     --panel-bg: rgba(61, 201, 243, 0.1);
+    /* --panel-bg: var(--color3); */
     --panel-shadow-color: rgba(2, 6, 23, 0.6);
     /* --lead-color: #2e3033; */
     --lead-color: var(--Sbleu);
@@ -45,6 +46,7 @@
     --btn-shadow-color: rgba(2, 6, 23, 0.35);
     --focus-outline-color: rgba(230, 238, 246, 0.95);
     padding: 32px;
+    margin-top: 200px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -132,6 +134,7 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 700;
+        /* text-align: left; */
 }
 
 .join-us-component .job small {
@@ -148,6 +151,7 @@
     color: var(--pill-color);
     font-size: .85rem;
     white-space: nowrap;
+    width: 120px;
 }
 
 .join-us-component form {
@@ -300,9 +304,17 @@
     box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.06);
 }
 
-@media (max-width: 900px) {
+
+
+@media (max-width:850px) {
     .join-us-component {
         padding: 16px;
+        width: 80%;
+        margin: auto;
+    }
+
+    .join-title {
+        display: none
     }
 
     .join-us-component .join-wrap {
@@ -312,5 +324,19 @@
 
     .join-us-component .panel {
         padding: 14px;
+    }
+}
+
+@media (max-width:600px) {
+    .join-us-component {
+        width: 90%;
+
+    }
+}
+
+@media (max-width:450px) {
+    .join-us-component {
+        width: 100%;
+
     }
 }
