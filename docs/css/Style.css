@@ -1194,60 +1194,142 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 
 
 
-
 .instagram-section {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.instagram-card {
-  background: #fff;
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
   padding: 16px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-.instagram-wrapper {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  height: 0;
-}
-
-.instagram-wrapper blockquote,
-.instagram-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  border: 0;
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-.instagram-fallback {
-  display: none;
+/* Card (compact) */
+.instagram-card {
+  width: 100%;
+  max-width: var(--instagram-width);
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--card-border);
+  box-sizing: border-box;
+  font-family: var(--font-sans);
+  color: #111;
+}
+
+/* Title small & subtle */
+.instagram-title {
+  font-size: 14px;
+  margin: 0 0 var(--gap) 0;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Responsive wrapper using aspect-ratio (modern) with safe fallback */
+.instagram-wrapper {
+  position: relative;
+  width: 100%;
+  /* default aspect ratio: square (Instagram post) */
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+  box-sizing: border-box;
+}
+
+/* fallback for older browsers that don't support aspect-ratio */
+.instagram-wrapper[data-aspect="16/9"] {
+  aspect-ratio: 16 / 9;
+}
+
+.instagram-wrapper[data-aspect="4/5"] {
+  aspect-ratio: 4 / 5;
+}
+
+/* Older-browsers padding-bottom fallback */
+.instagram-wrapper:not(:where([style*="aspect-ratio"])) {
+  /* keep a safe default padding (square) */
+  padding-bottom: 100%;
+  height: 0;
+}
+
+/* Ensure blockquote or iframe fill the wrapper */
+.instagram-wrapper blockquote,
+.instagram-wrapper iframe {
   position: absolute;
   inset: 0;
-  background: #fff;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+/* Fallback styling (hidden by default; your JS toggles display) */
+.instagram-fallback {
+  display: none;
+  /* JS shows it if embed fails */
+  position: absolute;
+  inset: 0;
+  padding: 14px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   text-align: center;
-  padding: 16px;
-  border: 1px solid #ccc;
+  background: #fff;
   border-radius: 6px;
+  border: 1px solid #eee;
 }
 
-.instagram-fallback a {
-  margin-top: 8px;
+/* small accessible link button */
+.instagram-fallback a,
+.instagram-noscript a {
+  display: inline-block;
   padding: 8px 12px;
-  background: #3897f0;
-  color: #fff;
   text-decoration: none;
-  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* noscript style */
+.instagram-noscript {
+  padding: 10px;
+  text-align: center;
+  background: #fff8;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* Small screens: make it even more compact */
+@media (max-width: 420px) {
+  :root {
+    --instagram-width: 320px;
+  }
+
+  .instagram-card {
+    padding: 10px;
+  }
+
+  .instagram-title {
+    font-size: 13px;
+  }
+}
+
+/* Accessibility: focus states */
+.instagram-fallback a:focus,
+.instagram-noscript a:focus {
+  outline: 3px solid rgba(56, 151, 240, 0.25);
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

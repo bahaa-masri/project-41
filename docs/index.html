@@ -141,26 +141,41 @@
           </div>
         </div> -->
 
-      <section class="instagram-section">
-        <div class="instagram-card">
-          <h2>Instagram Embed Test</h2>
-      
-          <!-- Wrapper responsive -->
-          <div class="instagram-wrapper" id="instagram-wrapper">
-            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DJRkIIIsFVG/"
-              data-instgrm-version="14" style="margin:0 auto; width:100%; max-width:540px;">
-              <a href="https://www.instagram.com/p/DJRkIIIsFVG/" target="_blank" rel="noopener noreferrer">View on
-                Instagram</a>
-            </blockquote>
-      
-            <!-- Fallback -->
-            <div class="instagram-fallback" id="instagram-fallback">
-              <p>Instagram content failed to load.</p>
-              <a href="https://www.instagram.com/p/DJRkIIIsFVG/" target="_blank">Open Post on Instagram</a>
-            </div>
-          </div>
+  <section class="instagram-section" aria-labelledby="ig-title">
+    <div class="instagram-card" role="region" aria-label="Instagram post card">
+      <h2 id="ig-title" class="instagram-title">Instagram Embed</h2>
+  
+      <div class="instagram-wrapper" id="instagram-wrapper" data-aspect="1/1">
+        <!-- Instagram blockquote (keep as-is for embed.js to convert) -->
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DJRkIIIsFVG/"
+          data-instgrm-version="14" style="margin:0 auto; width:100%; max-width:540px;">
+          <a href="https://www.instagram.com/p/DJRkIIIsFVG/" target="_blank" rel="noopener noreferrer">
+            View on Instagram
+          </a>
+        </blockquote>
+  
+        <!-- Fallback (kept for your JS to toggle) -->
+        <div class="instagram-fallback" id="instagram-fallback" aria-live="polite">
+          <p>Instagram content failed to load.</p>
+          <a href="https://www.instagram.com/p/DJRkIIIsFVG/" target="_blank" rel="noopener noreferrer">
+            Open post on Instagram
+          </a>
         </div>
-      </section>
+  
+        <!-- Noscript fallback for users without JS -->
+        <noscript>
+          <div class="instagram-noscript">
+            <a href="https://www.instagram.com/p/DJRkIIIsFVG/" target="_blank" rel="noopener noreferrer">
+              Open Instagram post (JavaScript is disabled)
+            </a>
+          </div>
+        </noscript>
+      </div>
+    </div>
+  </section>
+
+
+
       </div>
 
 
