@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!document.querySelector('script[src="//www.instagram.com/embed.js"]')) {
       console.log('[IG Debug] Adding Instagram embed.js script');
       const s = document.createElement('script');
-      s.src = "//www.instagram.com/embed.js";
+      // s.src = "//www.instagram.com/embed.js";
+      s.src = "https://www.instagram.com/embed.js";
+
       s.async = true;
       s.defer = true;
       s.onload = () => {
