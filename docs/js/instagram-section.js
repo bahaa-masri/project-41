@@ -1,62 +1,70 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const wrapper = document.getElementById('instagram-wrapper');
-  const fallback = document.getElementById('instagram-fallback');
+(function(){
+      const wrapper = document.getElementById('instagram-wrapper');
+      const fallback = document.getElementById('instagram-fallback');
+      const instaScriptUrl = 'https://www.instagram.com/embed.js';
 
-  function showFallback() {
-    fallback.style.display = 'flex';
-    console.log('[IG Debug] Fallback shown — iframe did NOT load.');
-  }
-
-  function hideFallback() {
-    fallback.style.display = 'none';
-    console.log('[IG Debug] Embed iframe loaded — fallback hidden.');
-  }
-
-  function hasIframe() {
-    const ifr = wrapper.querySelector('iframe');
-    console.log('[IG Debug] Checking iframe:', ifr);
-    return !!ifr;
-  }
-
-  function callProcess() {
-    if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
-      console.log('[IG Debug] Calling instgrm.Embeds.process()');
-      window.instgrm.Embeds.process();
-    } else {
-      console.log('[IG Debug] instgrm.Embeds.process() not ready yet');
-    }
-  }
-
-  function loadInstagram() {
-    if (!document.querySelector('script[src="//www.instagram.com/embed.js"]')) {
-      console.log('[IG Debug] Adding Instagram embed.js script');
-      const s = document.createElement('script');
-      s.src = "//www.instagram.com/embed.js";
-      s.async = true;
-      s.defer = true;
-      s.onload = () => {
-        console.log('[IG Debug] Instagram script loaded');
-        callProcess();
-      };
-      s.onerror = () => {
-        console.log('[IG Debug] Failed to load Instagram script');
-        showFallback();
-      };
-      document.head.appendChild(s);
-    } else {
-      console.log('[IG Debug] Instagram script already present');
-      callProcess();
-    }
-
-    // تحقق بعد ثانيتين
-    setTimeout(() => {
-      if (hasIframe()) {
-        hideFallback();
-      } else {
-        showFallback();
+      function showFallback(){
+        fallback.style.display = 'flex';
       }
-    }, 2000);
-  }
 
-  loadInstagram();
-});
+      // insert script
+      try{
+        const s = document.createElement('script');
+        s.src = instaScriptUrl;
+        s.async = true;
+        s.onload = function(){
+          // The script replaces blockquote with iframe; give it a moment
+          setTimeout(()=>{
+            const iframe = wrapper.querySelector('iframe');
+            if(!iframe) showFallback();
+            else {
+              fallback.style.display = 'none';
+              // make sure iframe fills container
+              iframe.style.width = '100%';
+              iframe.style.height = '100%';
+              iframe.style.border = '0';
+            }
+          },500);
+        };
+        s.onerror = showFallback;
+        document.body.appendChild(s);
+
+        // safety: if not loaded within 2.2s, show fallback
+        setTimeout(()=>{
+          const iframe = wrapper.querySelector('iframe');
+          if(!iframe) showFallback();
+        },2200);
+      }catch(e){ showFallback(); }
+
+      // copy link buttons
+      function copyToClipboard(text, el){
+        if(navigator.clipboard){
+          navigator.clipboard.writeText(text).then(()=>{ el.textContent = 'تم النسخ'; setTimeout(()=>el.textContent='انسخ الرابط',1400); });
+        }else{
+          // legacy
+          const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); el.textContent='تم النسخ'; }catch(e){ alert('انسخ يدوياً: '+text)} ta.remove(); setTimeout(()=>el.textContent='انسخ الرابط',1400);
+        }
+      }
+
+      const url = 'https://www.instagram.com/p/DJRkIIIsFVG/';
+      document.getElementById('copy-link')?.addEventListener('click', function(e){ copyToClipboard(url,this); });
+      document.getElementById('copy-link-2')?.addEventListener('click', function(e){ copyToClipboard(url,this); });
+      document.getElementById('view-on-instagram')?.addEventListener('click', ()=> window.open(url,'_blank'));
+      document.getElementById('open-link')?.addEventListener('click', ()=> {});
+
+      // native share
+      document.getElementById('share-native')?.addEventListener('click', async ()=>{
+        try{
+          if(navigator.share){
+            await navigator.share({title:'Instagram post', text:'تفقد هذا المنشور', url});
+          }else{
+            alert('المشاركة غير متاحة في هذا المتصفح. انسخ الرابط ومشاركته يدوياً.');
+          }
+        }catch(e){ console.error(e); }
+      });
+
+      // simple action examples
+      document.getElementById('action-like')?.addEventListener('click', function(){ this.textContent = 'تم الإعجاب'; this.disabled = true; });
+      document.getElementById('action-save')?.addEventListener('click', function(){ this.textContent = 'تم الحفظ'; this.disabled = true; });
+      document.getElementById('action-comment')?.addEventListener('click', function(){ window.open(url,'_blank'); });
+    })();
