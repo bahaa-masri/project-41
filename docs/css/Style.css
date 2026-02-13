@@ -1207,7 +1207,7 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
   max-width: var(--instagram-width);
   background: var(--card-bg);
   border-radius: var(--card-radius);
-  padding: 12px;
+  /* padding: 12px; */
   box-shadow: var(--shadow);
   border: 1px solid var(--card-border);
   box-sizing: border-box;
