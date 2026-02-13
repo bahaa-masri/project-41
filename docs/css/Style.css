@@ -1195,121 +1195,59 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 
 
 
-
-
 .instagram-section {
-  width: 100%;
-  max-width: var(--max-width);
+  max-width: 600px;
   margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .instagram-card {
   background: #fff;
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
-  overflow: hidden;
-  padding: 18px;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.instagram-head {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.instagram-head .title {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.instagram-head .sub {
-  font-size: 13px;
-  color: #666;
-}
-
-/* responsive wrapper: يحافظ على aspect ratio */
-.instagram-embed-wrapper {
+.instagram-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 - لو بدك 9:16 للـ Reels غيّرها لـ 177.78% أو استخدم aspect-ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 */
   height: 0;
 }
 
-/* اجعل أي iframe أو blockquote داخل ال-wrapper يحتل المساحة */
-.instagram-embed-wrapper > blockquote,
-.instagram-embed-wrapper > iframe {
-  position: absolute !important;
+.instagram-wrapper blockquote,
+.instagram-wrapper iframe {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100% !important;
   height: 100% !important;
-  border: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  border: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  background: #fff;
 }
 
-/* fallback (مخفي افتراضياً) */
 .instagram-fallback {
-  display: none; /* يظهر فقط لو فشل التضمين */
+  display: none;
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
-  text-align: center;
-  padding: 18px;
-}
-
-.fallback-box {
-  width: 100%;
-  max-width: 560px;
-  border-radius: 8px;
-  padding: 18px;
   background: #fff;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-
-.fallback-thumb {
-  width: 100%;
-  height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  background: linear-gradient(90deg,#eee,#f7f7f7);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#999;
-  font-size:14px;
-  margin-bottom:12px;
-  position: relative;
-  overflow: hidden;
 }
 
-.fallback-thumb svg { opacity: 0.65; }
-
-.fallback-action a {
-  display:inline-block;
-  background: var(--accent);
+.instagram-fallback a {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #3897f0;
   color: #fff;
   text-decoration: none;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-weight: 600;
-}
-
-/* الملاحظات */
-.note {
-  margin-top: 10px;
-  font-size: 13px;
-  color: #666;
-}
-
-/* شاشات صغيرة */
-@media (max-width:420px){
-  .instagram-embed-wrapper{ padding-bottom:70%; } /* مزيد ارتفاع للشاشات الضيقة */
-  .fallback-thumb{ height: 180px; }
+  border-radius: 4px;
 }
