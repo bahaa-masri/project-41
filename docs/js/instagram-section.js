@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const wrapper = document.getElementById('instagram-wrapper');
   const fallback = document.getElementById('instagram-fallback');
 
+  if (!wrapper || !fallback) return;
+
   function showFallback() {
     fallback.style.display = 'flex';
     console.log('[IG Debug] Fallback shown — iframe did NOT load.');
@@ -12,52 +14,66 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[IG Debug] Embed iframe loaded — fallback hidden.');
   }
 
-  function hasIframe() {
-    const ifr = wrapper.querySelector('iframe');
-    console.log('[IG Debug] Checking iframe:', ifr);
-    return !!ifr;
-  }
-
   function callProcess() {
-    if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
+    if (window.instgrm &&
+        window.instgrm.Embeds &&
+        typeof window.instgrm.Embeds.process === 'function') {
+
       console.log('[IG Debug] Calling instgrm.Embeds.process()');
       window.instgrm.Embeds.process();
+      watchForIframe(); // نبدأ المراقبة بعد المعالجة
     } else {
-      console.log('[IG Debug] instgrm.Embeds.process() not ready yet');
+      console.log('[IG Debug] instgrm not ready yet');
+      showFallback();
     }
   }
 
-  function loadInstagram() {
-    if (!document.querySelector('script[src="//www.instagram.com/embed.js"]')) {
-      console.log('[IG Debug] Adding Instagram embed.js script');
-      const s = document.createElement('script');
-      // s.src = "//www.instagram.com/embed.js";
-      s.src = "https://www.instagram.com/embed.js";
+  function watchForIframe() {
+    const observer = new MutationObserver((mutations, obs) => {
+      if (wrapper.querySelector('iframe')) {
+        console.log('[IG Debug] iframe detected');
+        hideFallback();
+        obs.disconnect();
+      }
+    });
 
+    observer.observe(wrapper, { childList: true, subtree: true });
+
+    // fallback بعد 5 ثواني إذا ما انضاف iframe
+    setTimeout(() => {
+      if (!wrapper.querySelector('iframe')) {
+        observer.disconnect();
+        showFallback();
+      }
+    }, 5000);
+  }
+
+  function loadInstagram() {
+    const existing = Array.from(document.scripts)
+      .some(s => s.src.includes('instagram.com/embed.js'));
+
+    if (!existing) {
+      console.log('[IG Debug] Adding Instagram embed.js script');
+
+      const s = document.createElement('script');
+      s.src = "https://www.instagram.com/embed.js";
       s.async = true;
-      s.defer = true;
+
       s.onload = () => {
         console.log('[IG Debug] Instagram script loaded');
         callProcess();
       };
+
       s.onerror = () => {
         console.log('[IG Debug] Failed to load Instagram script');
         showFallback();
       };
+
       document.head.appendChild(s);
     } else {
-      console.log('[IG Debug] Instagram script already present');
+      console.log('[IG Debug] Script already exists');
       callProcess();
     }
-
-    // تحقق بعد ثانيتين
-    setTimeout(() => {
-      if (hasIframe()) {
-        hideFallback();
-      } else {
-        showFallback();
-      }
-    }, 2000);
   }
 
   loadInstagram();
