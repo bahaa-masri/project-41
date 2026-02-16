@@ -1246,7 +1246,7 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 .social-wrapper:not(:where([style*="aspect-ratio"])) {
   /* keep a safe default padding (square) */
   padding-bottom: 100%;
-  /* height: 400px; */
+  height: 460px;
 }
 
 /* Ensure blockquote or iframe fill the wrapper */
