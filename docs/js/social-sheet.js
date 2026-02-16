@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       wrapEmbed(blockquote);
 
+      
       // ask Instagram platform to render if available, otherwise load it
       if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === "function") {
         window.instgrm.Embeds.process();
