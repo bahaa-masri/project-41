@@ -198,288 +198,85 @@
 
 
 
-// document.addEventListener("DOMContentLoaded", async function () {
-
-//   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhtrDwC0GdV0tjZ4hjKh8cteuykOh5xqQhdIec_Tk9CWGHPVgMW-sQpVvA0WNToLbf9A/exec";
-//   const wrapper = document.getElementById("social-wrapper");
-//   if (!wrapper) return console.error("Social wrapper not found");
-
-//   // wrapper.innerHTML = "<p>Loading social post...</p>";
-// wrapper.innerHTML = `
-//   <div class="social-loading" aria-live="polite" aria-busy="true">
-//     <div class="spinner" aria-hidden="true"></div>
-//     <div class="skeleton" aria-hidden="true">
-//       <div class="line long"></div>
-//       <div class="line mid"></div>
-//       <div class="line short"></div>
-//     </div>
-//     <div class="loading-text visually-hidden">Loading social post</div>
-//   </div>`;
-
-//   try {
-//     const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
-//     const data = await res.json();
-//     console.log("Sheet response:", data);
-//     if (!data || !data.length) throw new Error("No data returned from sheet");
-
-//     const row = data[0];
-//     let linkedinLink = (row["linkedin-link"] || "").toString().trim();
-//     const instagramLink = (row["ig-link"] || "").toString().trim();
-
-//     wrapper.innerHTML = "";
-
-//     // helper to create a scrollable embed container
-//     function wrapEmbed(element) {
-//       const container = document.createElement("div");
-//       container.className = "embed-container";
-//       container.appendChild(element);
-//       wrapper.appendChild(container);
-//       return container;
-//     }
-
-//     // helper to insert iframe node from raw HTML
-//     function insertIframeNode(iframeNode) {
-//       const node = document.importNode(iframeNode, true);
-//       if (!node.getAttribute("title")) node.setAttribute("title", "Embedded post");
-//       return wrapEmbed(node);
-//     }
-
-//     // helper to create iframe from src
-//     function createAndInsertIframe(src, width = "100%", height = "600") {
-//       const iframe = document.createElement("iframe");
-//       iframe.src = src;
-//       iframe.width = width;
-//       iframe.height = height;
-//       iframe.frameBorder = "0";
-//       iframe.allowFullscreen = true;
-//       iframe.title = "Embedded post";
-//       return wrapEmbed(iframe);
-//     }
-
-//     // helper to watch for nodes added (LinkedIn fallback)
-//     function waitForNode(root, timeout = 5000) {
-//       return new Promise(resolve => {
-//         const obs = new MutationObserver((mutations, o) => {
-//           if (root.querySelector("iframe") || root.children.length > 0) {
-//             o.disconnect();
-//             resolve(true);
-//           }
-//         });
-//         obs.observe(root, { childList: true, subtree: true });
-//         setTimeout(() => {
-//           try { obs.disconnect(); } catch(e){}
-//           resolve(Boolean(root.querySelector("iframe") || root.children.length > 0));
-//         }, timeout);
-//       });
-//     }
-
-//     // -------- LinkedIn logic --------
-//     if (linkedinLink) {
-
-//       // 0) If the cell contains a full <iframe> tag
-//       if (linkedinLink.toLowerCase().includes("<iframe")) {
-//         try {
-//           const parser = new DOMParser();
-//           const doc = parser.parseFromString(linkedinLink, "text/html");
-//           const iframeEl = doc.querySelector("iframe");
-//           if (iframeEl) {
-//             insertIframeNode(iframeEl);
-//             console.log("Inserted LinkedIn iframe from raw HTML.");
-//             return;
-//           }
-//         } catch (e) {
-//           console.warn("Failed to parse iframe HTML:", e);
-//         }
-//       }
-
-//       let finalLink = "";
-
-//       // 1) direct embed URL
-//       if (linkedinLink.includes("/embed/feed/")) {
-//         finalLink = linkedinLink;
-
-//       } else {
-//         // 2) check for URN
-//         const urnMatch = linkedinLink.match(/urn:li:[^\s/]+:[0-9]+/);
-//         if (urnMatch) {
-//           finalLink = "https://www.linkedin.com/embed/feed/update/" + encodeURIComponent(urnMatch[0]);
-
-//         } else if (/^\d+$/.test(linkedinLink)) {
-//           // 3) just a number
-//           const urn = "urn:li:ugcPost:" + linkedinLink;
-//           finalLink = "https://www.linkedin.com/embed/feed/update/" + encodeURIComponent(urn);
-
-//         } else {
-//           // 4) fallback: public post URL -> IN/Share
-//           const script = document.createElement("script");
-//           script.type = "IN/Share";
-//           script.setAttribute("data-url", linkedinLink);
-//           wrapper.appendChild(script);
-
-//           if (window.IN && typeof window.IN.parse === "function") {
-//             window.IN.parse(wrapper);
-//             console.log("Used IN.parse() for LinkedIn share.");
-//           } else {
-//             console.log("LinkedIn platform script not ready; ensure <script src=\"https://platform.linkedin.com/in.js\"> is on the page.");
-//           }
-
-//           waitForNode(wrapper, 5000).then(ok => {
-//             if (ok) console.log("LinkedIn embed loaded (via IN.parse).");
-//             else console.warn("LinkedIn embed did not appear within timeout.");
-//           });
-
-//           return;
-//         }
-//       }
-
-//       if (finalLink) {
-//         createAndInsertIframe(finalLink);
-//         console.log("LinkedIn iframe inserted ✅", finalLink);
-//       }
-
-//       return;
-//     }
-
-//     // -------- Instagram fallback --------
-//     if (instagramLink) {
-//       const blockquote = document.createElement("blockquote");
-//       blockquote.className = "instagram-media";
-//       blockquote.setAttribute("data-instgrm-permalink", instagramLink);
-//       blockquote.setAttribute("data-instgrm-version", "14");
-//       blockquote.style.margin = "0 auto";
-//       blockquote.style.width = "100%";
-//       blockquote.style.maxWidth = "540px";
-
-//       const a = document.createElement("a");
-//       a.href = instagramLink;
-//       a.target = "_blank";
-//       a.rel = "noopener noreferrer";
-//       a.textContent = "View on Instagram";
-//       blockquote.appendChild(a);
-
-//       wrapEmbed(blockquote);
-
-//       if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === "function") {
-//         window.instgrm.Embeds.process();
-//       } else if (!Array.from(document.scripts).some(s => s.src.includes("instagram.com/embed.js"))) {
-//         const s = document.createElement("script");
-//         s.src = "https://www.instagram.com/embed.js";
-//         s.async = true;
-//         s.onload = () => window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process && window.instgrm.Embeds.process();
-//         document.head.appendChild(s);
-//       }
-
-//       console.log("Instagram embed inserted.");
-//       return;
-//     }
-
-//     wrapper.innerHTML = "<p>No social link available.</p>";
-//     console.warn("No linkedin-link or ig-link in sheet.");
-
-//   } catch (err) {
-//     console.error("Error loading social post:", err);
-//     wrapper.innerHTML = `<p>Failed to load social post.</p>`;
-//   }
-
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// social-embed.js
 document.addEventListener("DOMContentLoaded", async function () {
+
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzhtrDwC0GdV0tjZ4hjKh8cteuykOh5xqQhdIec_Tk9CWGHPVgMW-sQpVvA0WNToLbf9A/exec";
   const wrapper = document.getElementById("social-wrapper");
   if (!wrapper) return console.error("Social wrapper not found");
 
-  // Ensure wrapper is a centered flex container (CSS also handles it)
-  wrapper.setAttribute("aria-live", "polite");
-  wrapper.setAttribute("role", "region");
-
-  // initial loading UI (screenreader friendly)
-  wrapper.innerHTML = `
-    <div class="social-loading" aria-busy="true" aria-live="polite">
-      <div class="spinner" aria-hidden="true"></div>
-      <div class="skeleton" aria-hidden="true">
-        <div class="line long"></div>
-        <div class="line mid"></div>
-        <div class="line short"></div>
-      </div>
-      <div class="loading-text visually-hidden">Loading social post</div>
-    </div>`;
-
-  function wrapEmbed(element) {
-    const container = document.createElement("div");
-    container.className = "embed-container";
-    container.appendChild(element);
-    // center the container inside wrapper
-    wrapper.appendChild(container);
-    return container;
-  }
-
-  function insertIframeNode(iframeNode) {
-    const node = document.importNode(iframeNode, true);
-    if (!node.getAttribute("title")) node.setAttribute("title", "Embedded post");
-    return wrapEmbed(node);
-  }
-
-  function createAndInsertIframe(src, width = "100%", height = "600") {
-    const iframe = document.createElement("iframe");
-    iframe.src = src;
-    iframe.width = width;
-    iframe.height = height;
-    iframe.frameBorder = "0";
-    iframe.allowFullscreen = true;
-    iframe.title = "Embedded post";
-    iframe.loading = "lazy";
-    iframe.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
-    return wrapEmbed(iframe);
-  }
-
-  function waitForNode(root, timeout = 5000) {
-    return new Promise(resolve => {
-      const obs = new MutationObserver((mutations, o) => {
-        if (root.querySelector("iframe") || root.children.length > 0) {
-          o.disconnect();
-          resolve(true);
-        }
-      });
-      obs.observe(root, { childList: true, subtree: true });
-      setTimeout(() => {
-        try { obs.disconnect(); } catch (e) {}
-        resolve(Boolean(root.querySelector("iframe") || root.children.length > 0));
-      }, timeout);
-    });
-  }
+  // wrapper.innerHTML = "<p>Loading social post...</p>";
+wrapper.innerHTML = `
+  <div class="social-loading" aria-live="polite" aria-busy="true">
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="skeleton" aria-hidden="true">
+      <div class="line long"></div>
+      <div class="line mid"></div>
+      <div class="line short"></div>
+    </div>
+    <div class="loading-text visually-hidden">Loading social post</div>
+  </div>`;
 
   try {
-    const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now(), { cache: "no-store" });
-    if (!res.ok) throw new Error("Network response not ok: " + res.status);
+    const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
     const data = await res.json();
     console.log("Sheet response:", data);
     if (!data || !data.length) throw new Error("No data returned from sheet");
 
-    const row = data[0] || {};
+    const row = data[0];
     let linkedinLink = (row["linkedin-link"] || "").toString().trim();
     const instagramLink = (row["ig-link"] || "").toString().trim();
 
-    // clear loader
     wrapper.innerHTML = "";
 
-    // prefer LinkedIn (if present), otherwise Instagram
+    // helper to create a scrollable embed container
+    function wrapEmbed(element) {
+      const container = document.createElement("div");
+      container.className = "embed-container";
+      container.appendChild(element);
+      wrapper.appendChild(container);
+      return container;
+    }
+
+    // helper to insert iframe node from raw HTML
+    function insertIframeNode(iframeNode) {
+      const node = document.importNode(iframeNode, true);
+      if (!node.getAttribute("title")) node.setAttribute("title", "Embedded post");
+      return wrapEmbed(node);
+    }
+
+    // helper to create iframe from src
+    function createAndInsertIframe(src, width = "100%", height = "600") {
+      const iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.width = width;
+      iframe.height = height;
+      iframe.frameBorder = "0";
+      iframe.allowFullscreen = true;
+      iframe.title = "Embedded post";
+      return wrapEmbed(iframe);
+    }
+
+    // helper to watch for nodes added (LinkedIn fallback)
+    function waitForNode(root, timeout = 5000) {
+      return new Promise(resolve => {
+        const obs = new MutationObserver((mutations, o) => {
+          if (root.querySelector("iframe") || root.children.length > 0) {
+            o.disconnect();
+            resolve(true);
+          }
+        });
+        obs.observe(root, { childList: true, subtree: true });
+        setTimeout(() => {
+          try { obs.disconnect(); } catch(e){}
+          resolve(Boolean(root.querySelector("iframe") || root.children.length > 0));
+        }, timeout);
+      });
+    }
+
     // -------- LinkedIn logic --------
     if (linkedinLink) {
-      // 0) raw iframe html in cell
+
+      // 0) If the cell contains a full <iframe> tag
       if (linkedinLink.toLowerCase().includes("<iframe")) {
         try {
           const parser = new DOMParser();
@@ -500,56 +297,51 @@ document.addEventListener("DOMContentLoaded", async function () {
       // 1) direct embed URL
       if (linkedinLink.includes("/embed/feed/")) {
         finalLink = linkedinLink;
+
       } else {
-        // 2) check for URN (ugcPost or activity)
+        // 2) check for URN
         const urnMatch = linkedinLink.match(/urn:li:[^\s/]+:[0-9]+/);
         if (urnMatch) {
           finalLink = "https://www.linkedin.com/embed/feed/update/" + encodeURIComponent(urnMatch[0]);
+
         } else if (/^\d+$/.test(linkedinLink)) {
-          // 3) just a number => assume ugcPost id
+          // 3) just a number
           const urn = "urn:li:ugcPost:" + linkedinLink;
           finalLink = "https://www.linkedin.com/embed/feed/update/" + encodeURIComponent(urn);
+
         } else {
-          // 4) fallback: try LinkedIn IN/Share script with public URL
+          // 4) fallback: public post URL -> IN/Share
           const script = document.createElement("script");
           script.type = "IN/Share";
           script.setAttribute("data-url", linkedinLink);
-          // add a wrapper for the IN.parse output
-          const shareContainer = document.createElement("div");
-          shareContainer.className = "linkedin-share-wrapper";
-          wrapper.appendChild(shareContainer);
-          shareContainer.appendChild(script);
+          wrapper.appendChild(script);
 
           if (window.IN && typeof window.IN.parse === "function") {
-            try { window.IN.parse(shareContainer); } catch(e) { console.warn(e); }
+            window.IN.parse(wrapper);
             console.log("Used IN.parse() for LinkedIn share.");
           } else {
-            // If platform script missing, add a gentle console hint (not injecting script automatically)
-            console.log("LinkedIn platform script not present. Add <script src=\"https://platform.linkedin.com/in.js\"></script> to page for IN.parse fallback.");
+            console.log("LinkedIn platform script not ready; ensure <script src=\"https://platform.linkedin.com/in.js\"> is on the page.");
           }
 
-          // wait for iframe/node to appear
-          const ok = await waitForNode(shareContainer, 6000);
-          if (!ok && instagramLink) {
-            // fallback to Instagram if LinkedIn didn't render
-            console.warn("LinkedIn share didn't appear; falling back to Instagram.");
-            // allow instagram logic below to run
-          } else {
-            return;
-          }
+          waitForNode(wrapper, 5000).then(ok => {
+            if (ok) console.log("LinkedIn embed loaded (via IN.parse).");
+            else console.warn("LinkedIn embed did not appear within timeout.");
+          });
+
+          return;
         }
       }
 
       if (finalLink) {
         createAndInsertIframe(finalLink);
         console.log("LinkedIn iframe inserted ✅", finalLink);
-        return;
       }
+
+      return;
     }
 
     // -------- Instagram fallback --------
     if (instagramLink) {
-      // build blockquote embed but hide the visible anchor text per request
       const blockquote = document.createElement("blockquote");
       blockquote.className = "instagram-media";
       blockquote.setAttribute("data-instgrm-permalink", instagramLink);
@@ -558,42 +350,22 @@ document.addEventListener("DOMContentLoaded", async function () {
       blockquote.style.width = "100%";
       blockquote.style.maxWidth = "540px";
 
-      // anchor: visually-hidden text for SR, plus optional icon
       const a = document.createElement("a");
       a.href = instagramLink;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.className = "instagram-anchor";
-
-      // Accessible text (hidden visually, readable by screen readers)
-      const sr = document.createElement("span");
-      sr.className = "visually-hidden";
-      sr.textContent = "Open on Instagram";
-      a.appendChild(sr);
-
-      // Optional minimal icon (SVG) so there's a visible clickable affordance without the sentence
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("aria-hidden", "true");
-      svg.setAttribute("focusable", "false");
-      svg.classList.add("instagram-icon");
-      svg.innerHTML = '<path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.2a4.8 4.8 0 1 0 .001 9.6A4.8 4.8 0 0 0 12 8.2zm6.5-.9a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z" />';
-
-      a.appendChild(svg);
+      a.textContent = "View on Instagram";
       blockquote.appendChild(a);
 
       wrapEmbed(blockquote);
 
-      // load Instagram embed script if needed
       if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === "function") {
-        try { window.instgrm.Embeds.process(); } catch(e) { console.warn(e); }
-      } else if (!Array.from(document.scripts).some(s => s.src && s.src.includes("instagram.com/embed.js"))) {
+        window.instgrm.Embeds.process();
+      } else if (!Array.from(document.scripts).some(s => s.src.includes("instagram.com/embed.js"))) {
         const s = document.createElement("script");
         s.src = "https://www.instagram.com/embed.js";
         s.async = true;
-        s.onload = () => {
-          try { window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process && window.instgrm.Embeds.process(); } catch(e) {}
-        };
+        s.onload = () => window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process && window.instgrm.Embeds.process();
         document.head.appendChild(s);
       }
 
@@ -601,11 +373,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    wrapper.innerHTML = `<div class="social-fallback"><p>No social link available.</p></div>`;
+    wrapper.innerHTML = "<p>No social link available.</p>";
     console.warn("No linkedin-link or ig-link in sheet.");
 
   } catch (err) {
     console.error("Error loading social post:", err);
-    wrapper.innerHTML = `<div class="social-fallback"><p>Failed to load social post.</p></div>`;
+    wrapper.innerHTML = `<p>Failed to load social post.</p>`;
   }
+
 });
