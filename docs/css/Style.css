@@ -1246,7 +1246,7 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 .social-wrapper:not(:where([style*="aspect-ratio"])) {
   /* keep a safe default padding (square) */
   padding-bottom: 100%;
-  height: 460px;
+  height: 455px;
 }
 
 /* Ensure blockquote or iframe fill the wrapper */
@@ -1340,6 +1340,184 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------- Loading-only styles (scope inside .social-wrapper) ---------- */
+.social-wrapper .social-loading {
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+/* spinner */
+.social-wrapper .social-loading .spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--accent, #2b6cb0);
+  box-sizing: border-box;
+  animation: __social_spin 900ms linear infinite;
+}
+
+/* Skeleton block under spinner (simulates post content) */
+.social-wrapper .social-loading .skeleton {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 6px 0;
+}
+
+.social-wrapper .social-loading .skeleton .line {
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f3f3f3 25%, #ececec 37%, #f3f3f3 63%);
+  background-size: 400% 100%;
+  animation: __social_shimmer 1.6s linear infinite;
+}
+
+.social-wrapper .social-loading .skeleton .line.long {
+  width: 100%;
+  height: 14px;
+}
+
+.social-wrapper .social-loading .skeleton .line.mid {
+  width: 80%;
+}
+
+.social-wrapper .social-loading .skeleton .line.short {
+  width: 55%;
+}
+
+/* small caption (screen readers visible text kept visually-hidden) */
+.social-wrapper .social-loading .loading-text {
+  font-size: 13px;
+  color: #555;
+  margin-top: 6px;
+}
+
+/* visually hidden helper (a11y) */
+.social-wrapper .visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .social-wrapper .social-loading .spinner {
+    animation: none;
+  }
+
+  .social-wrapper .social-loading .skeleton .line {
+    animation: none;
+    background: #efefef;
+  }
+}
+
+/* keyframes */
+@keyframes __social_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes __social_shimmer {
+  0% {
+    background-position: 200% 0
+  }
+
+  100% {
+    background-position: -200% 0
+  }
+}
+
+/* Responsive tweaks (small screens) */
+@media (max-width: 420px) {
+  .social-wrapper .social-loading .spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+
+  .social-wrapper .social-loading .skeleton .line {
+    height: 10px;
+    border-radius: 6px;
+  }
+}
 /* 
 .ViewProfileButton {
   display: none

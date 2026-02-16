@@ -204,7 +204,17 @@ document.addEventListener("DOMContentLoaded", async function () {
   const wrapper = document.getElementById("social-wrapper");
   if (!wrapper) return console.error("Social wrapper not found");
 
-  wrapper.innerHTML = "<p>Loading social post...</p>";
+  // wrapper.innerHTML = "<p>Loading social post...</p>";
+wrapper.innerHTML = `
+  <div class="social-loading" aria-live="polite" aria-busy="true">
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="skeleton" aria-hidden="true">
+      <div class="line long"></div>
+      <div class="line mid"></div>
+      <div class="line short"></div>
+    </div>
+    <div class="loading-text visually-hidden">Loading social post</div>
+  </div>`;
 
   try {
     const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
