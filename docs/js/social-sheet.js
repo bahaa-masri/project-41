@@ -161,7 +161,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       a.href = instagramLink;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.textContent = "View on Instagram";
+      // a.textContent = "View on Instagram";
+      a.textContent = "";
       blockquote.appendChild(a);
 
       wrapEmbed(blockquote);
