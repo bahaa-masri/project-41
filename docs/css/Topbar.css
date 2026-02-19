@@ -131,6 +131,7 @@ html {
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     width: 100% !important;
+    /* height: 20vh; */
     min-height: 150px;
 }
 
@@ -533,4 +534,137 @@ button:focus {
         height: 25px;
     }
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:1350px) {
+    .topbar-inner {
+        width: 68% !important;
+        margin-left: 20px;
+    }
+}
+
+@media(max-width:1350px) {
+    .topbar-inner {
+        width: 70% !important;
+        margin-left: 20px;
+    }
+}
+
+
+@media(max-width:1250px) {
+    .topbar-inner {
+        width: 72% !important;
+        margin-left: 20px;
+    }
+}
+
+
+@media(max-width:1150px) {
+    .topbar-inner {
+        width: 74% !important;
+        margin-left: 20px;
+    }
+}
+
+
+
+
+
+
+@media(max-width:950px) {
+    .topbar-inner {
+        width: 83% !important;
+        margin-left: 20px;
+    }
+}
+
+@media(max-width:876px) {
+    .topbar-inner {
+        width: 87% !important;
+        margin-left: 20px;
+    }
+}
+@media(max-width:766px) {
+    .topbar-inner {
+        width: 76% !important;
+        margin-left: 30px;
+    }
+}
+@media(max-width:550px) {
+    .topbar {
+        min-height: 120px;
+    }
+}
+@media(max-width:426px) {
+    .topbar {
+        min-height: 100px;
+    }
+}
+
+@media(max-width:376px)
+{
+    .topbar-inner{
+        width: 70% !important;
+    }
+.topbar{
+    margin-left: 15px;
+    min-height: 80px;
+}
+}
+@media(max-width:320px) {
+    .topbar {
+        margin-left: 20px;
+    }
 }

@@ -1,0 +1,51 @@
+.join-us-component {
+    --component-max-width: var(--max-width, 980px);
+    --component-gap: var(--gap, 18px);
+    --component-radius: var(--radius, 12px);
+    --component-accent: var(--accent, #06b6d4);
+    --component-muted: var(--muted, #9aa4b2);
+    /* --join-text: #505973; */
+    --join-text: var(--Sbleu);
+    --panel-bg: rgba(61, 201, 243, 0.1);
+    /* --panel-bg: var(--color3); */
+    --panel-shadow-color: rgb(3 14 61 / 60%);
+    /* --lead-color: #2e3033; */
+    --lead-color: #1e73be;
+    --job-border-color: rgb(24 12 131 / 3%);
+    --job-hover-bg-start: rgba(255, 255, 255, 0.02);
+    --job-hover-bg-end: rgba(255, 255, 255, 0.03);
+    --job-hover-shadow-color: rgba(2, 6, 23, 0.45);
+    --job-small-color: #ececec;
+    --job-small-color: #0b3969;
+    /* --pill-bg: rgba(6, 182, 212, 0.2); */
+    --pill-bg: rgb(9 47 87);
+    --pill-border: rgba(6, 182, 212, 0.12);
+    /* --pill-color: #e5e6e9; */
+    --pill-color: #ffffff;
+    --input-border-color: rgb(190 144 144 / 4%);
+    --input-bg: rgb(232 232 232);
+    --input-text-color: #19232c;
+    --select-color: #092f57;
+    --textarea-min-height: 120px;
+    --file-drop-border: rgb(10 15 46 / 4%);
+    --file-drop-drag-bg-start: rgb(3 40 78);
+    --file-drop-drag-bg-end: rgba(6, 182, 212, 0.01);
+    --file-drop-drag-border: rgb(2 21 42);
+    /* --file-info-color: #000000; */
+    --file-info-color: #002444;
+    --error-color: #ff0101;
+    --note-color: #000000;
+    --note-color: #000000;
+    --btn-bg-start: var(--component-accent);
+    --btn-bg-start: #092f57;
+    --btn-bg-end: #2c639c;
+    /* --btn-text-color: #022; */
+    --btn-text-color-tmp: #ffffff;
+    --btn-text-color: var(--btn-text-color-tmp);
+    --btn-shadow-color: rgb(101 117 187 / 35%);
+    --focus-outline-color: rgb(26 62 97 / 95%);
+    padding: 32px;
+    margin-top: 200px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
