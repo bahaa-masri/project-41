@@ -96,9 +96,9 @@ h2 {
   /* --card-bg: rgba(61, 201, 243, 0.1); */
   --card-bg: rgba(255, 255, 255, 50%);
   /* --shadow-025: rgba(0, 0, 0, 0.1); */
---shadow-025: #000;
+  --shadow-025: #000;
   /* --shadow-035: rgba(0, 0, 0, 0.15); */
---shadow-035: #000;
+  --shadow-035: #000;
   --link: var(--color_2_1);
 
 }
@@ -725,7 +725,7 @@ body {
   border-radius: 18px;
   padding: 24px 22px 26px;
   /* box-shadow: 0 12px 30px var(--shadow-025); */
-    box-shadow: 25px 25px 60px var(--shadow-025);
+  box-shadow: 25px 25px 60px var(--shadow-025);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -974,9 +974,9 @@ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
 @media (max-width:766px) {
-  .logo-left {
+  /* .logo-left {
     margin-top: 40px;
-  }
+  } */
 
   .partners-wrap {
     width: 90%
@@ -988,13 +988,16 @@ box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
     align-items: center
   }
 
+  /* 
   .logo-left,
+  */
+  /*
   .logo-right {
     position: relative;
     transform: none;
     display: inline-block;
     max-height: 50px
-  }
+  } */
 
   .header-inner {
     width: 100%;
@@ -1571,6 +1574,7 @@ filter: invert(32%) sepia(83%) saturate(748%) hue-rotate(178deg) brightness(95%)
   border: 0;
   box-sizing: border-box;
 }
+
 /* 
 .ViewProfileButton {
   display: none

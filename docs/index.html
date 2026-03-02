@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="css/Style.css" />
   <link rel="stylesheet" href="css/Topbar.css" />
   <link rel="stylesheet" href="instagram-section.css">
-  <link rel="stylesheet"  href="css/Our-Board.css">
+  <link rel="stylesheet" href="css/Our-Board.css">
 
   <!-- Google font used across the site for a clean, professional UI -->
   <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
@@ -93,7 +93,7 @@
         <a href="#wrap1" role="menuitem">About Us</a>
         <a href="#brands" role="menuitem">Sister Companies</a>
         <a href="#csr" role="menuitem">CSR</a>
-          <a href="#OurBoard" role="menuitem">Our Board</a>
+        <a href="#OurBoard" role="menuitem">Our Board</a>
         <a href="#join" role="menuitem">Join Our Team</a>
         <a href="#contact" role="menuitem">Contact</a>
       </nav>
@@ -146,7 +146,7 @@
             <!-- <h2 id="ig-title" class="social-title">Instagram Embed</h2>
            -->
             <div class="social-wrapper" id="social-wrapper" data-aspect="1/1">
-             
+
               <!-- <blockquote class="social-media" data-instgrm-permalink="https://www.instagram.com/p/DJ55ug9MbUS/"
                 data-instgrm-version="14" style="margin:0 auto; width:100%; max-width:540px;">
                 <a href="https://www.instagram.com/p/DJ55ug9MbUS/" target="_blank" rel="noopener noreferrer">
@@ -170,14 +170,14 @@
                   </a>
                 </div>
               </noscript> -->
-           
+
             </div>
           </div>
 
-          
+
         </div>
 
-      <!-- <section class="social-section" aria-labelledby="ig-title">
+        <!-- <section class="social-section" aria-labelledby="ig-title">
         
       </section> -->
 
@@ -420,46 +420,63 @@
       <div id="join" class="join-us-component">
         <h2 class="csr-title join-title">Join Our Team</h2>
         <section class="join-wrap" aria-labelledby="join-title">
+          <div>
+            <div class="panel info" id="company-info">
+              <h2 id="join-title">Join Us</h2>
+              <p class="lead">We’re a small team building reliable, maintainable software...</p>
 
-          <div class="panel info" id="company-info">
-            <h2 id="join-title">Join Us</h2>
-            <p class="lead">We’re a small team building reliable, maintainable software...</p>
+              <div aria-live="polite">
+                <h3 style="font-size:1rem;margin:14px 0 8px 0">Open Positions</h3>
 
-            <div aria-live="polite">
-              <h3 style="font-size:1rem;margin:14px 0 8px 0">Open Positions</h3>
+                <div class="jobs" id="jobs-list">
+                  <article class="job" data-role="frontend">
+                    <div class="meta">
+                      <h4>Frontend Engineer</h4>
+                      <small>Remote — Full-time</small>
+                    </div>
+                    <div class="pill">Experienced</div>
+                  </article>
 
-              <div class="jobs" id="jobs-list">
-                <article class="job" data-role="frontend">
-                  <div class="meta">
-                    <h4>Frontend Engineer</h4>
-                    <small>Remote — Full-time</small>
-                  </div>
-                  <div class="pill">Experienced</div>
-                </article>
+                  <article class="job" data-role="backend">
+                    <div class="meta">
+                      <h4>Backend Engineer</h4>
+                      <small>On-site (Beirut) — 6+ months</small>
+                    </div>
+                    <div class="pill">Backend</div>
+                  </article>
 
-                <article class="job" data-role="backend">
-                  <div class="meta">
-                    <h4>Backend Engineer</h4>
-                    <small>On-site (Beirut) — 6+ months</small>
-                  </div>
-                  <div class="pill">Backend</div>
-                </article>
+                  <article class="job" data-role="intern">
+                    <div class="meta">
+                      <h4>Intern - Dev</h4>
+                      <small>Part-time — Internship</small>
+                    </div>
+                    <div class="pill">Entry</div>
+                  </article>
+                </div>
 
-                <article class="job" data-role="intern">
-                  <div class="meta">
-                    <h4>Intern - Dev</h4>
-                    <small>Part-time — Internship</small>
-                  </div>
-                  <div class="pill">Entry</div>
-                </article>
+                <p class="note" style="margin-top:12px">
+                  Common items in a "Join Us" section...
+                </p>
               </div>
+            </div>
 
-              <p class="note" style="margin-top:12px">
-                Common items in a "Join Us" section...
-              </p>
+            <div class="new-boxe">
+              <section class="join-extra">
+                <article class="join-card">
+                  <h3>Why Join Us?</h3>
+                  <p>
+                    We focus on clean code, real teamwork, and building software that actually lasts.
+                  </p>
+
+                  <ul class="join-features">
+                    <li>✔ Remote-friendly culture</li>
+                    <li>✔ Real impact projects</li>
+                    <li>✔ Growth & learning</li>
+                  </ul>
+                </article>
+              </section>
             </div>
           </div>
-
 
 
           <aside class="panel" aria-labelledby="apply-title">
@@ -483,12 +500,15 @@
 
               <div>
                 <label for="position">Position</label>
-                <select id="position" name="position">
+                <!-- <select id="position" name="position">
                   <option value="">— Select —</option>
                   <option value="frontend">Frontend Engineer</option>
                   <option value="backend">Backend Engineer</option>
                   <option value="devops">DevOps</option>
                   <option value="intern">Intern</option>
+                </select> -->
+                <select id="position" name="position" required>
+                  <option value="">— Select —</option>
                 </select>
               </div>
 
@@ -591,10 +611,11 @@
 
   </div>
   <script src="js/main.js" defer></script>
-   <script src="js/instagram-section.js" defer></script>
-   <script async src="https://www.instagram.com/embed.js"></script>
+  <script src="js/instagram-section.js" defer></script>
+  <script async src="https://www.instagram.com/embed.js"></script>
   <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-    <script src="js/social-sheet.js"></script>
+  <script src="js/social-sheet.js"></script>
+  <script src="js/positions.js"></script>
 </body>
 
 </html>

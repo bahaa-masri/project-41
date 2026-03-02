@@ -68,7 +68,7 @@
     /* --join-text: #505973; */
     --join-text: var(--Sbleu);
     /* --panel-bg: rgba(61, 201, 243, 0.1); */
-     --panel-bg: rgba(205, 206, 206, 0.1);
+    --panel-bg: rgba(205, 206, 206, 0.1);
     /* --panel-bg: var(--color3); */
     --panel-shadow-color: rgb(3 14 61 / 60%);
     /* --lead-color: #2e3033; */
@@ -197,7 +197,7 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 700;
-        /* text-align: left; */
+    /* text-align: left; */
 }
 
 .join-us-component .job small {
@@ -403,4 +403,143 @@
         width: 100%;
 
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.join-extra {
+    margin-top: 18px;
+    /* width: 500px;
+    height: 365px; */
+}
+
+.join-card {
+    background: var(--panel-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: var(--component-radius);
+    padding: 18px;
+    box-shadow: 0 6px 18px var(--panel-shadow-color);
+    text-align: left;
+
+
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+
+}
+
+.join-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    color: var(--titlecolor, var(--color1));
+}
+
+.join-card p {
+    font-size: .95rem;
+    line-height: 1.5;
+    color: var(--join-text);
+    margin-bottom: 12px;
+}
+
+.join-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.join-features li {
+    font-size: .9rem;
+    padding: 6px 0;
+    color: var(--lead-color);
 }
