@@ -14,9 +14,10 @@ $allowedMime = [
 
 // === Configure ===
 $CALL_GOOGLE = true; // set false to disable Google calls
-$GOOGLE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzG94m7YmCdjM1rA5Ak_zP2BDezsCeH3gRaJhImrnD8SSB35HPM9nPBN5t5HUuE8--j/exec';
+$GOOGLE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzke6XSUDTevE-Ft7MBrEG29fwCQhvWAMRSbtg0VMMPbWEQBULGiohHdE7Xl3c_EVTJuQ/exec';
 $GOOGLE_SECRET = getenv('GOOGLE_HOOK_SECRET') ?: 'my-super-secret-123'; // أنصح بخيار env var
-$FILES_BASE_URL = 'http://192.168.0.114/hosriholding/public/uploads/';
+// $FILES_BASE_URL = 'http://192.168.0.114/hosriholding/public/uploads/';
+$FILES_BASE_URL = 'http://172.16.2.68/hosriholding/public/uploads/';
 // ==============================================
 
 function show($t, $m) {

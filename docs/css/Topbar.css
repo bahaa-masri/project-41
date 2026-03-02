@@ -86,7 +86,7 @@ html {
     width: auto;
     margin-top: 10px;
     margin-left: 5px; */
-    height: clamp(35px, 3vw, 45px);
+    height: clamp(35px, 3vw, 40px);
     width: auto;
     margin-top: 10px;
     margin-left: 5px;
@@ -96,7 +96,7 @@ html {
     /* height: 50px;
     width: auto;
     margin-top: 10px; */
-    height: clamp(35px, 3vw, 55px);
+    height: clamp(35px, 3vw, 50px);
     width: auto;
     margin-top: 10px;
     margin-left: -60px;
@@ -164,8 +164,8 @@ html {
     font-weight: 600;
     letter-spacing: .2px;
     /* font-size: 24px; */
-    font-size: clamp(16px, 1.2vw, 24px);
-    padding: 0.5em clamp(10px, 1.3vw, 28px);
+    font-size: clamp(14px, 1.4vw, 18px);
+    padding: 0.5em clamp(10px, 1.4vw, 14px);
     border-radius: 6px;
 
     display: inline-block;
@@ -235,7 +235,20 @@ section[id] {
     scroll-margin-top: 140px;
 }
 
+@media(max-width:1450px) {
+    .nav-links a {
+            font-size: clamp(14px, 1.4vw, 16px);
+            padding: 0.5em clamp(10px, 1.4vw, 14px);
+    }
 
+        .logo-left {
+            height: clamp(20px, 3vw, 35px);
+        }
+    
+        .logo-right {
+            height: clamp(20px, 3vw, 30px);
+        }
+}
 @media(max-width:950px) {
 
     .nav-links {

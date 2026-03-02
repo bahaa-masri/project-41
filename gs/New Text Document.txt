@@ -1,0 +1,47 @@
+// Code.gs
+var SPREADSHEET_ID = '1zwI7jCZr2O07e1_hDkX34ejZx8p_nbJZdkLg308pku8';
+var SHEET_NAME = 'Sheet1';
+var HOOK_SECRET = 'my-super-secret-123';
+
+function doPost(e) {
+  try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return jsonError('no_post_data');
+    }
+
+    var data = JSON.parse(e.postData.contents);
+
+    if (data._secret !== HOOK_SECRET) {
+      return jsonError('unauthorized');
+    }
+
+    var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    var sheet = ss.getSheetByName(SHEET_NAME);
+
+    sheet.appendRow([
+      new Date(),                       // A
+      data.name || '',                  // B
+      data.email || '',                 // C
+      data.phone || '',
+      data.position || '',   
+      data.file_path || '',            // D
+      data.filename || '',              // E
+      data.original_filename || '',     // F
+      data.note || '',                  // G
+      data.timestamp || ''              // H
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return jsonError(err.toString());
+  }
+}
+
+function jsonError(msg) {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'error', message: msg }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

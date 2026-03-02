@@ -14,7 +14,7 @@ $allowedMime = [
 
 // === Configure ===
 $CALL_GOOGLE = true; // set false to disable Google calls
-$GOOGLE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwSXcsQikoKx8rNE8rDSHHXd1z1l7TquzOcGyVT7a-2iGlEApsBpbxkRqM0akC6WbWp/exec';
+$GOOGLE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbws64oyBfviLTMGi0WSTUAbevuJfAqfbIBilJ7mH-U4wL0_kbu8er_i5mfjMQTsv553/exec';
 $GOOGLE_SECRET = getenv('GOOGLE_HOOK_SECRET') ?: 'my-super-secret-123'; // أنصح بخيار env var
 // ==============================================
 
