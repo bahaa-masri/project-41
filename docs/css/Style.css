@@ -612,6 +612,8 @@ body {
     font-weight: 600;
     margin-bottom: 20px !important;
     line-height: 1.1;
+
+    text-align: center;
   }
 
   .csr-cards {
@@ -704,6 +706,8 @@ body {
   font-size: var(--titlesize);
   font-weight: 600;
   margin-bottom: 80px;
+
+  text-align: center;
 }
 
 .csr-cards {

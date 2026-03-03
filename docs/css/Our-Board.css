@@ -168,12 +168,16 @@
    BOARD WRAPPER
 ========================= */
 #OurBoard {
+    margin-top: 250px;
+}
+
+.OurBoard-inner {
     min-height: 800px;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    padding: 80px 0;
+    /* padding: 80px 0; */
     box-sizing: border-box;
 }
 
