@@ -369,6 +369,7 @@
 
 
 
+
 @media (max-width:850px) {
     .join-us-component {
         padding: 16px;
@@ -388,6 +389,12 @@
 
     .join-us-component .panel {
         padding: 14px;
+    }
+}
+
+@media (max-width: 455px) {
+    .join-us-component {
+        margin-top: 120px;
     }
 }
 

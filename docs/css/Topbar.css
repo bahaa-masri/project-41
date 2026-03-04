@@ -243,7 +243,32 @@ section[id] {
     scroll-margin-top: 180px;
 }
 
-@media(max-width:425px) {
+@media(max-width:950px) {
+
+    #OurBoard {
+        margin-top: 200px !important;
+    }
+
+}
+
+@media(max-width:950px) {
+
+    #contact {
+        scroll-margin-top: 150px;
+    }
+
+}
+
+@media(max-width:850px) {
+
+    #join {
+        scroll-margin-top: 220px;
+    }
+
+}
+
+
+@media(max-width:455px) {
 
     /* #brands {
         scroll-margin-top: 130px;
@@ -256,6 +281,14 @@ section[id] {
 
     #csr {
         scroll-margin-top: 140px;
+    }
+
+    #join {
+        scroll-margin-top: 160px;
+    }
+
+    #OurBoard {
+        scroll-margin-top: 120px;
     }
 }
 
