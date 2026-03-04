@@ -1,174 +1,620 @@
-console.log("🟢 DOMContentLoaded fired");
+// const CONFIG = {
+//     SHEET_ID: "1KjFuk_ObCCTTROTrGgRGttMQF1vH4R7SUOFxktjaGoQ",
+//     SHEET_NAME: "Sheet1",
+//     FETCH_TIMEOUT_MS: 8000,
+//     CSV_FALLBACK_URL: "./data/positions.csv"
+// };
+
+// const fallbackPositions = [
+//     { role: "frontend", title: "Frontend Engineer test1", type: "Full-time", level: "Experienced" },
+//     { role: "backend", title: "Backend Engineer test1", type: "Full-time", level: "Backend" }
+// ];
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     const select = document.getElementById("position");
+//     const jobsContainer = document.getElementById("jobs-list");
+//     if (!select || !jobsContainer) return;
+
+//     select.disabled = true;
+//     renderAll(fallbackPositions); // show something immediately
+
+//     loadPositions(); // then try to replace with live data
+// });
+
+// /* ---------------------------
+//    Core flow: try Google Sheet -> CSV -> fallback
+//    --------------------------- */
+// async function loadPositions() {
+//     let data = [];
+
+//     try {
+//         data = await loadFromGoogleSheet();
+//     } catch {
+//         data = [];
+//     }
+
+//     if (!Array.isArray(data) || data.length === 0) {
+//         try {
+//             data = await loadFromCSV(CONFIG.CSV_FALLBACK_URL);
+//         } catch {
+//             data = fallbackPositions;
+//         }
+//     }
+
+//     renderAll(data);
+// }
+
+// /* ---------------------------
+//    Helpers
+//    --------------------------- */
+// async function fetchWithTimeout(url, timeoutMs) {
+//     const controller = new AbortController();
+//     const id = setTimeout(() => controller.abort(), timeoutMs);
+//     try {
+//         const res = await fetch(url, { signal: controller.signal });
+//         clearTimeout(id);
+//         return res;
+//     } catch (err) {
+//         clearTimeout(id);
+//         throw err;
+//     }
+// }
+
+// /* ---------------------------
+//    Google Sheets loader
+//    - tries to detect header names (role/title/...)
+//    - if no headers found, falls back to column indices 0..4
+//    --------------------------- */
+// async function loadFromGoogleSheet() {
+//     const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json&sheet=${CONFIG.SHEET_NAME}`;
+//     const res = await fetchWithTimeout(url, CONFIG.FETCH_TIMEOUT_MS);
+//     if (!res.ok) throw new Error("Sheet response not OK");
+
+//     const text = await res.text();
+//     const trimmed = text.substring(47).slice(0, -2);
+//     let json;
+//     try { json = JSON.parse(trimmed); } catch { throw new Error("Invalid sheet JSON"); }
+
+//     const rows = Array.isArray(json?.table?.rows) ? json.table.rows : [];
+//     if (!rows.length) return [];
+
+//     const headerRow = (rows[0].c || []).map(c => (c && c.v ? String(c.v).toLowerCase().trim() : ""));
+//     const hasHeaderNames = headerRow.some(h => ["role", "title", "type", "level", "active"].includes(h));
+
+//     const findIndex = name => {
+//         const idx = headerRow.indexOf(name);
+//         return idx >= 0 ? idx : null;
+//     };
+
+//     // default to column 0..4 if no header names (aligns with CSV)
+//     const fallbackIndices = { role: 0, title: 1, type: 2, level: 3, active: 4 };
+//     const getIndex = (foundIdx, key) => (foundIdx !== null ? foundIdx : fallbackIndices[key]);
+
+//     const mapIdx = {
+//         role: getIndex(findIndex("role"), "role"),
+//         title: getIndex(findIndex("title"), "title"),
+//         type: getIndex(findIndex("type"), "type"),
+//         level: getIndex(findIndex("level"), "level"),
+//         active: getIndex(findIndex("active"), "active")
+//     };
+
+//     const dataRows = rows.slice(1);
+//     const mapped = dataRows.map(r => {
+//         const cell = idx => (Array.isArray(r.c) && r.c[idx] && r.c[idx].v != null ? r.c[idx].v : "");
+//         return {
+//             role: String(cell(mapIdx.role)).trim(),
+//             title: String(cell(mapIdx.title)).trim(),
+//             type: String(cell(mapIdx.type)).trim(),
+//             level: String(cell(mapIdx.level)).trim(),
+//             active: cell(mapIdx.active)
+//         };
+//     });
+
+//     return mapped.filter(p => p.role && p.title && String(p.active || "").toLowerCase().trim() === "yes");
+// }
+
+// /* ---------------------------
+//    CSV loader
+//    - robust line splitter (handles quoted commas)
+//    - detects headers; if no headers, assumes columns 0..4 (role,title,type,level,active)
+//    --------------------------- */
+// async function loadFromCSV(url) {
+//     const res = await fetchWithTimeout(url, CONFIG.FETCH_TIMEOUT_MS);
+//     if (!res.ok) throw new Error("CSV not loaded");
+
+//     const text = await res.text();
+//     const rowsRaw = text.split(/\r?\n/).map(r => r.trim()).filter(Boolean);
+//     if (!rowsRaw.length) return [];
+
+//     // parse first line to see if it's header-like
+//     const firstCells = parseCsvLine(rowsRaw[0]).map(h => String(h).toLowerCase().trim());
+//     const hasHeaderNames = firstCells.some(h => ["role", "title", "type", "level", "active"].includes(h));
+
+//     let headers = [];
+//     let dataLines = [];
+
+//     if (hasHeaderNames) {
+//         headers = firstCells;
+//         dataLines = rowsRaw.slice(1);
+//     } else {
+//         // no header line: treat all rows as data and use default header positions 0..4
+//         headers = ["role", "title", "type", "level", "active"];
+//         dataLines = rowsRaw;
+//     }
+
+//     const idx = {
+//         role: headers.indexOf("role"),
+//         title: headers.indexOf("title"),
+//         type: headers.indexOf("type"),
+//         level: headers.indexOf("level"),
+//         active: headers.indexOf("active")
+//     };
+
+//     const parsed = dataLines.map(line => {
+//         const cells = parseCsvLine(line);
+//         return {
+//             role: String(cells[idx.role] || "").trim(),
+//             title: String(cells[idx.title] || "").trim(),
+//             type: String(cells[idx.type] || "").trim(),
+//             level: String(cells[idx.level] || "").trim(),
+//             active: String(cells[idx.active] || "yes").trim()
+//         };
+//     });
+
+//     return parsed.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+// }
+
+// /* CSV line parser: handles quoted fields with commas */
+// function parseCsvLine(line) {
+//     const res = [];
+//     let cur = "";
+//     let inQuotes = false;
+//     for (let i = 0; i < line.length; i++) {
+//         const ch = line[i];
+//         if (ch === '"' && line[i - 1] !== "\\") {
+//             inQuotes = !inQuotes;
+//             continue;
+//         }
+//         if (ch === "," && !inQuotes) {
+//             res.push(cur);
+//             cur = "";
+//             continue;
+//         }
+//         cur += ch;
+//     }
+//     res.push(cur);
+//     return res.map(s => s.trim().replace(/^"|"$/g, "").replace(/\\"/g, '"'));
+// }
+
+// /* ---------------------------
+//    UI rendering
+//    --------------------------- */
+// function renderAll(data) {
+//     populateSelect(data);
+//     populateJobs(data);
+// }
+
+// function populateSelect(data) {
+//     const select = document.getElementById("position");
+//     if (!select) return;
+
+//     // clear and create single placeholder
+//     select.innerHTML = "";
+//     const placeholder = document.createElement("option");
+//     placeholder.value = "";
+//     placeholder.textContent = "— Select —";
+//     placeholder.disabled = true;
+//     placeholder.selected = true;
+//     select.appendChild(placeholder);
+
+//     const frag = document.createDocumentFragment();
+//     data.forEach(p => {
+//         if (!p.role || !p.title) return;
+//         const opt = document.createElement("option");
+//         opt.value = p.role;
+//         opt.textContent = `${p.title} (${p.type || ""})`;
+//         frag.appendChild(opt);
+//     });
+//     select.appendChild(frag);
+
+//     // enable only if real options exist
+//     select.disabled = select.options.length <= 1;
+// }
+
+// function populateJobs(data) {
+//     const jobsContainer = document.getElementById("jobs-list");
+//     if (!jobsContainer) return;
+
+//     jobsContainer.innerHTML = "";
+//     const frag = document.createDocumentFragment();
+//     data.forEach(p => {
+//         if (!p.role || !p.title) return;
+//         const article = document.createElement("article");
+//         article.className = "job";
+//         article.dataset.role = p.role;
+//         article.innerHTML = `<div class="meta"><h4>${escapeHtml(p.title)}</h4><small>${escapeHtml(p.type)}</small></div><div class="pill">${escapeHtml(p.level || "")}</div>`;
+//         frag.appendChild(article);
+//     });
+//     jobsContainer.appendChild(frag);
+// }
+
+// function escapeHtml(s) {
+//     return String(s)
+//         .replace(/&/g, "&amp;")
+//         .replace(/</g, "&lt;")
+//         .replace(/>/g, "&gt;");
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// unified version: preserves old client-side flow (header detection + col fallback)
+// but uses same fetch method as social script (SCRIPT_URL? t=timestamp)
+const CONFIG = {
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzhtrDwC0GdV0tjZ4hjKh8cteuykOh5xqQhdIec_Tk9CWGHPVgMW-sQpVvA0WNToLbf9A/exec",
+    FETCH_TIMEOUT_MS: 8000,
+    CSV_FALLBACK_URL: "./data/positions.csv"
+};
+
+const fallbackPositions = [
+    { role: "loading", title: "Loading positions...", type: "", level: "" }
+];
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("🟢 DOMContentLoaded fired");
-
-    // =======================
-    // CONFIG
-    // =======================
-    const SHEET_ID = "1KjFuk_ObCCTTROTrGgRGttMQF1vH4R7SUOFxktjaGoQ";
-    const SHEET_NAME = "Sheet1";
-    const CSV_FALLBACK_URL = "/data/positions.csv";
-
-    console.log("Config:", { SHEET_ID, SHEET_NAME, CSV_FALLBACK_URL });
-
     const select = document.getElementById("position");
-    console.log("🔍 select element:", select);
+    const jobsContainer = document.getElementById("jobs-list");
+    if (!select || !jobsContainer) return;
 
-    if (!select) {
-        console.error("❌ STOP: #position not found in DOM");
-        return;
-    }
-
-    // =======================
-    // MAIN FUNCTION
-    // =======================
-    async function loadPositions() {
-        console.log("➡️ loadPositions() START");
-
-        try {
-            console.log("➡️ trying Google Sheet...");
-            const sheetData = await loadFromGoogleSheet();
-
-            console.log("✅ Google Sheet SUCCESS");
-            console.table(sheetData);
-
-            populateSelect(sheetData);
-            console.log("✅ populateSelect done");
-
-            updateCSV(sheetData);
-            console.log("📤 updateCSV called");
-
-        } catch (err) {
-            console.error("❌ Google Sheet FAILED", err);
-
-            console.log("➡️ trying CSV fallback...");
-            const csvData = await loadFromCSV();
-
-            console.log("✅ CSV SUCCESS");
-            console.table(csvData);
-
-            populateSelect(csvData);
-            console.log("✅ populateSelect from CSV done");
-        }
-
-        console.log("⬅️ loadPositions() END");
-    }
-
-    // =======================
-    // LOAD GOOGLE SHEET
-    // =======================
-    async function loadFromGoogleSheet() {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-        console.log("🌍 Fetching Google Sheet URL:", url);
-
-        const res = await fetch(url);
-        console.log("🌐 Response status:", res.status, res.statusText);
-
-        const text = await res.text();
-        console.log("📄 Raw response length:", text.length);
-        console.log("📄 Raw response preview:", text.substring(0, 300));
-
-        const trimmed = text.substring(47).slice(0, -2);
-        console.log("✂️ Trimmed JSON preview:", trimmed.substring(0, 200));
-
-        const json = JSON.parse(trimmed);
-        console.log("🧩 Parsed JSON:", json);
-
-        const rows = json.table.rows;
-        console.log("📊 Rows count:", rows.length);
-        console.log("📊 Rows raw:", rows);
-
-        const mapped = rows.map((r, i) => {
-            const obj = {
-                role: r.c[2]?.v,   // <-- هنا اسم العمود Role
-                title: r.c[3]?.v,  // <-- هنا اسم العمود Title
-                type: r.c[4]?.v,   // <-- Type
-                level: r.c[5]?.v,  // <-- Level
-                active: r.c[6]?.v  // <-- Active (yes/no)
-            };
-            console.log(`➡️ Row ${i} mapped:`, obj);
-            return obj;
-        });
-
-        const filtered = mapped.filter(p => p.active === "yes");
-        console.log("🟢 Filtered active rows:", filtered);
-
-        if (filtered.length === 0) {
-            console.warn("⚠️ No active rows found (active !== 'yes')");
-        }
-
-        return filtered;
-    }
-
-    // =======================
-    // LOAD CSV FALLBACK
-    // =======================
-    async function loadFromCSV() {
-        console.log("📂 Fetching CSV:", CSV_FALLBACK_URL);
-
-        const res = await fetch(CSV_FALLBACK_URL);
-        console.log("🌐 CSV status:", res.status);
-
-        const text = await res.text();
-        console.log("📄 CSV raw text:", text);
-
-        const rows = text.split("\n").slice(1);
-        console.log("📊 CSV rows:", rows);
-
-        const parsed = rows.map((line, i) => {
-            const [role, title, type, level, active] = line.split(",");
-            const obj = { role, title, type, level, active };
-            console.log(`➡️ CSV row ${i}:`, obj);
-            return obj;
-        }).filter(p => p.active === "yes");
-
-        console.log("🟢 CSV active rows:", parsed);
-        return parsed;
-    }
-
-    // =======================
-    // POPULATE SELECT
-    // =======================
-    function populateSelect(data) {
-        console.log("🧱 populateSelect called with:", data);
-
-        select.innerHTML = `<option value="">— Select —</option>`;
-
-        data.forEach((p, i) => {
-            console.log(`➕ Adding option ${i}:`, p);
-
-            const opt = document.createElement("option");
-            opt.value = p.role;
-            opt.textContent = `${p.title} (${p.type})`;
-            select.appendChild(opt);
-        });
-
-        console.log("🎉 Select options count:", select.options.length);
-    }
-
-    // =======================
-    // UPDATE CSV BACKEND
-    // =======================
-    function updateCSV(data) {
-        console.log("📤 Sending data to updateCSV endpoint:", data);
-
-        fetch("/api/update-positions.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        })
-            .then(r => {
-                console.log("🌐 updateCSV response status:", r.status);
-                return r.text();
-            })
-            .then(t => console.log("📨 updateCSV response body:", t))
-            .catch(e => console.error("❌ updateCSV error:", e));
-    }
-
-    // =======================
-    // START
-    // =======================
-    loadPositions();
+    select.disabled = true;
+    renderAll(fallbackPositions); // immediate UI
+    loadPositions(); // GS -> CSV -> fallback
 });
+
+/* -------------------------
+   Main flow
+   ------------------------- */
+async function loadPositions() {
+    let data = [];
+    try {
+        data = await loadFromGSLikeOld(); // <-- uses SCRIPT_URL but does old-style parsing
+    } catch (e) {
+        console.warn("GS load failed:", e);
+        try {
+            data = await loadFromCSV(CONFIG.CSV_FALLBACK_URL);
+            console.log("Loaded from CSV fallback");
+        } catch (e2) {
+            console.warn("CSV fallback failed:", e2);
+            data = fallbackPositions;
+        }
+    }
+    renderAll(data);
+}
+
+/* -------------------------
+   fetch helper
+   ------------------------- */
+async function fetchWithTimeout(url, opts = {}, timeoutMs = CONFIG.FETCH_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const res = await fetch(url, { signal: controller.signal, cache: "no-store", ...opts });
+        clearTimeout(id);
+        return res;
+    } catch (err) {
+        clearTimeout(id);
+        throw err;
+    }
+}
+
+/* -------------------------
+   loadFromGSLikeOld
+   - tries multiple formats returned by GS:
+     A) array of objects [{role,title,...}, ...]
+     B) gviz text (the old gvix/tq output)
+     C) 2D array of values (headers + rows)
+   - after normalizing to rows array, applies old header-detection + fallback indices
+   ------------------------- */
+async function loadFromGSLikeOld() {
+    if (!CONFIG.SCRIPT_URL) throw new Error("SCRIPT_URL not set");
+
+    const url = `${CONFIG.SCRIPT_URL}?t=${Date.now()}`;
+    const res = await fetchWithTimeout(url, {}, CONFIG.FETCH_TIMEOUT_MS);
+    if (!res.ok) {
+        const txt = await tryReadTextSafe(res);
+        throw new Error(`GS response ${res.status} ${res.statusText} ${txt ? "- " + txt.slice(0, 200) : ""}`);
+    }
+
+    const contentType = res.headers.get("content-type") || "";
+
+    // try parse as JSON first
+    if (contentType.includes("application/json") || contentType.includes("text/json")) {
+        const json = await res.json();
+        // case A: array of objects
+        if (Array.isArray(json) && json.length && typeof json[0] === "object" && !Array.isArray(json[0])) {
+            return mapObjectsToOldStyleRows(json);
+        }
+        // case B alt: GS might return {table: {rows: [...]}} (gviz-like already parsed)
+        if (json && json.table && Array.isArray(json.table.rows)) {
+            return parseGvizRowsToObjects(json.table.rows);
+        }
+        // case C: maybe GS returned 2D array
+        if (Array.isArray(json) && json.length && Array.isArray(json[0])) {
+            return parse2DArrayToObjects(json);
+        }
+        throw new Error("Unrecognized JSON shape from GS");
+    }
+
+    // if not JSON, try as text (maybe gviz/tq raw)
+    const text = await res.text();
+    // try gviz style: starts with some prefix "/*O_o*/google.visualization.Query.setResponse("
+    if (text && text.length > 100 && text.indexOf("google.visualization.Query.setResponse") !== -1) {
+        // extract inner JSON like old code
+        try {
+            const trimmed = text.substring(text.indexOf("(") + 1).slice(0, -2); // safe-ish
+            const parsed = JSON.parse(trimmed);
+            if (parsed && parsed.table && Array.isArray(parsed.table.rows)) {
+                return parseGvizRowsToObjects(parsed.table.rows);
+            }
+        } catch (e) {
+            console.warn("Failed to parse gviz text:", e);
+        }
+    }
+
+    // as a last attempt: treat text as CSV-like body
+    try {
+        const rowsRaw = text.split(/\r?\n/).map(r => r.trim()).filter(Boolean);
+        if (rowsRaw.length) {
+            // reuse CSV parsing path: parse first line for headers, then convert
+            const firstCells = parseCsvLine(rowsRaw[0]).map(h => String(h).toLowerCase().trim());
+            const hasHeaderNames = firstCells.some(h => ["role", "title", "type", "level", "active"].includes(h));
+            const dataLines = hasHeaderNames ? rowsRaw.slice(1) : rowsRaw;
+            const headers = hasHeaderNames ? firstCells : ["role", "title", "type", "level", "active"];
+            const parsed = dataLines.map(line => {
+                const cells = parseCsvLine(line);
+                return {
+                    role: String(cells[headers.indexOf("role")] || "").trim(),
+                    title: String(cells[headers.indexOf("title")] || "").trim(),
+                    type: String(cells[headers.indexOf("type")] || "").trim(),
+                    level: String(cells[headers.indexOf("level")] || "").trim(),
+                    active: String(cells[headers.indexOf("active")] || "yes").trim()
+                };
+            });
+            return parsed.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+        }
+    } catch (e) {
+        /* ignore */
+    }
+
+    throw new Error("Unable to parse GS response");
+}
+
+/* -------------------------
+   helpers to parse shapes
+   ------------------------- */
+function mapObjectsToOldStyleRows(arr) {
+    // arr: [{role:'x', title:'y', ...}, ...]
+    // normalize keys, then filter active=yes
+    const normalized = arr.map(row => ({
+        role: String(row.role ?? row.Role ?? row.ROLE ?? "").trim(),
+        title: String(row.title ?? row.Title ?? row.TITLE ?? "").trim(),
+        type: String(row.type ?? row.Type ?? "").trim(),
+        level: String(row.level ?? row.Level ?? "").trim(),
+        active: String(row.active ?? row.Active ?? "yes").trim()
+    }));
+    return normalized.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+}
+
+function parse2DArrayToObjects(arr2d) {
+    // arr2d: [ [header1,header2,...], [r1c1,r1c2,...], ... ]
+    const headers = (arr2d[0] || []).map(h => String(h || "").toLowerCase().trim());
+    const dataRows = arr2d.slice(1);
+    const fallbackIndices = { role: 0, title: 1, type: 2, level: 3, active: 4 };
+    const findIndex = name => {
+        const idx = headers.indexOf(name);
+        return idx >= 0 ? idx : null;
+    };
+    const getIndex = (foundIdx, key) => (foundIdx !== null ? foundIdx : fallbackIndices[key]);
+    const mapIdx = {
+        role: getIndex(findIndex("role"), "role"),
+        title: getIndex(findIndex("title"), "title"),
+        type: getIndex(findIndex("type"), "type"),
+        level: getIndex(findIndex("level"), "level"),
+        active: getIndex(findIndex("active"), "active")
+    };
+    const mapped = dataRows.map(r => ({
+        role: String(r[mapIdx.role] || "").trim(),
+        title: String(r[mapIdx.title] || "").trim(),
+        type: String(r[mapIdx.type] || "").trim(),
+        level: String(r[mapIdx.level] || "").trim(),
+        active: String(r[mapIdx.active] || "yes").trim()
+    }));
+    return mapped.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+}
+
+function parseGvizRowsToObjects(rows) {
+    // rows is the gviz rows array (each r.c is array of cells {v:...})
+    if (!Array.isArray(rows) || rows.length === 0) return [];
+    // header detection from first row
+    const headerRow = (rows[0].c || []).map(c => (c && c.v ? String(c.v).toLowerCase().trim() : ""));
+    const findIndex = name => {
+        const idx = headerRow.indexOf(name);
+        return idx >= 0 ? idx : null;
+    };
+    const fallbackIndices = { role: 0, title: 1, type: 2, level: 3, active: 4 };
+    const getIndex = (foundIdx, key) => (foundIdx !== null ? foundIdx : fallbackIndices[key]);
+    const mapIdx = {
+        role: getIndex(findIndex("role"), "role"),
+        title: getIndex(findIndex("title"), "title"),
+        type: getIndex(findIndex("type"), "type"),
+        level: getIndex(findIndex("level"), "level"),
+        active: getIndex(findIndex("active"), "active")
+    };
+    const dataRows = rows.slice(1);
+    const mapped = dataRows.map(r => {
+        const cell = idx => (Array.isArray(r.c) && r.c[idx] && r.c[idx].v != null ? r.c[idx].v : "");
+        return {
+            role: String(cell(mapIdx.role)).trim(),
+            title: String(cell(mapIdx.title)).trim(),
+            type: String(cell(mapIdx.type)).trim(),
+            level: String(cell(mapIdx.level)).trim(),
+            active: String(cell(mapIdx.active) ?? "yes").trim()
+        };
+    });
+    return mapped.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+}
+
+async function tryReadTextSafe(res) {
+    try { return await res.text(); } catch (e) { return ""; }
+}
+
+/* -------------------------
+   CSV loader (same as old)
+   ------------------------- */
+async function loadFromCSV(url) {
+    const res = await fetchWithTimeout(url, {}, CONFIG.FETCH_TIMEOUT_MS);
+    if (!res.ok) throw new Error("CSV not loaded");
+    const text = await res.text();
+    const rowsRaw = text.split(/\r?\n/).map(r => r.trim()).filter(Boolean);
+    if (!rowsRaw.length) return [];
+
+    const firstCells = parseCsvLine(rowsRaw[0]).map(h => String(h).toLowerCase().trim());
+    const hasHeaderNames = firstCells.some(h => ["role", "title", "type", "level", "active"].includes(h));
+
+    let headers = [], dataLines = [];
+    if (hasHeaderNames) { headers = firstCells; dataLines = rowsRaw.slice(1); }
+    else { headers = ["role", "title", "type", "level", "active"]; dataLines = rowsRaw; }
+
+    const idx = {
+        role: headers.indexOf("role"),
+        title: headers.indexOf("title"),
+        type: headers.indexOf("type"),
+        level: headers.indexOf("level"),
+        active: headers.indexOf("active")
+    };
+
+    const parsed = dataLines.map(line => {
+        const cells = parseCsvLine(line);
+        return {
+            role: String(cells[idx.role] || "").trim(),
+            title: String(cells[idx.title] || "").trim(),
+            type: String(cells[idx.type] || "").trim(),
+            level: String(cells[idx.level] || "").trim(),
+            active: String(cells[idx.active] || "yes").trim()
+        };
+    });
+
+    return parsed.filter(p => p.role && p.title && String(p.active || "").toLowerCase() === "yes");
+}
+
+function parseCsvLine(line) {
+    const res = []; let cur = ""; let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"' && line[i - 1] !== "\\") { inQuotes = !inQuotes; continue; }
+        if (ch === "," && !inQuotes) { res.push(cur); cur = ""; continue; }
+        cur += ch;
+    }
+    res.push(cur);
+    return res.map(s => s.trim().replace(/^"|"$/g, "").replace(/\\"/g, '"'));
+}
+
+/* -------------------------
+   UI rendering (same as old)
+   ------------------------- */
+function renderAll(data) {
+    populateSelect(data);
+    populateJobs(data);
+}
+
+function populateSelect(data) {
+    const select = document.getElementById("position");
+    if (!select) return;
+    select.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "— Select —";
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
+
+    const frag = document.createDocumentFragment();
+    data.forEach(p => {
+        if (!p.role || !p.title) return;
+        const opt = document.createElement("option");
+        opt.value = p.role;
+        opt.textContent = `${p.title} (${p.type || ""})`;
+        frag.appendChild(opt);
+    });
+    select.appendChild(frag);
+    select.disabled = select.options.length <= 1;
+}
+
+function populateJobs(data) {
+    const jobsContainer = document.getElementById("jobs-list");
+    if (!jobsContainer) return;
+    jobsContainer.innerHTML = "";
+    const frag = document.createDocumentFragment();
+    data.forEach(p => {
+        if (!p.role || !p.title) return;
+        const article = document.createElement("article");
+        article.className = "job";
+        article.dataset.role = p.role;
+        article.innerHTML = `<div class="meta"><h4>${escapeHtml(p.title)}</h4><small>${escapeHtml(p.type)}</small></div><div class="pill">${escapeHtml(p.level || "")}</div>`;
+        frag.appendChild(article);
+    });
+    jobsContainer.appendChild(frag);
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
