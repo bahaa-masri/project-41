@@ -310,6 +310,7 @@ section[id] {
 
 @media (min-width: 380px) and (max-width: 580px) {
     .logo-right {
+        height: 35px;
         margin-left: -60px;
     }
 }
