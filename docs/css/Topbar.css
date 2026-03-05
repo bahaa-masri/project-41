@@ -303,7 +303,14 @@ section[id] {
     }
 
     .logo-right {
-        height: clamp(20px, 3vw, 30px);
+        height: clamp(30px, 3vw, 30px);
+    }
+}
+
+
+@media (min-width: 380px) and (max-width: 580px) {
+    .logo-right {
+        margin-left: -60px;
     }
 }
 
