@@ -127,23 +127,30 @@ body {
   min-height: 100vh;
 }
 
-/* .page-1-2 {
+.page-1-2 {
   background-image: url('../img/wbg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flow-root;
-} */
-
-.page-1-2 {
-  background-image: url(../img/wbg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 40% 50%;
+  background-position: 40% 0%;
 }
 
-@media(max-width:500px) {
+
+@media(max-width:700px) {
   .page-1-2 {
     background-position: 45% 50%;
+  }
+}
+
+@media(min-width:1500px) {
+  .page-1-2 {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0) 80%, rgba(255, 255, 255, 0.8) 100%),
+      url(../img/wbg.jpg);
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: 40% 0%;
+    background-size: 101%;
   }
 }
 
