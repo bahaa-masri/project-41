@@ -127,11 +127,24 @@ body {
   min-height: 100vh;
 }
 
-.page-1-2 {
+/* .page-1-2 {
   background-image: url('../img/wbg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flow-root;
+} */
+
+.page-1-2 {
+  background-image: url(../img/wbg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 40% 50%;
+}
+
+@media(max-width:500px) {
+  .page-1-2 {
+    background-position: 45% 50%;
+  }
 }
 
 .wrap1 {
