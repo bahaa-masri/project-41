@@ -1,7 +1,4 @@
 <?php
-// apply_with_google.php
-// Simple file upload + local CSV record + optional POST to Google Apps Script WebApp
-// Usage: change $CALL_GOOGLE, $GOOGLE_WEBAPP_URL and $GOOGLE_SECRET below.
 
 $uploadDir = __DIR__ . '/uploads/';
 $maxFileSize = 4 * 1024 * 1024; // 4MB
@@ -15,8 +12,8 @@ $allowedMime = [
 // === Configure ===
 $CALL_GOOGLE = true; // set false to disable Google calls
 $GOOGLE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzke6XSUDTevE-Ft7MBrEG29fwCQhvWAMRSbtg0VMMPbWEQBULGiohHdE7Xl3c_EVTJuQ/exec';
-$GOOGLE_SECRET = getenv('GOOGLE_HOOK_SECRET') ?: 'my-super-secret-123'; // أنصح بخيار env var
-// $FILES_BASE_URL = 'http://192.168.0.114/hosriholding/public/uploads/';
+$GOOGLE_SECRET = getenv('GOOGLE_HOOK_SECRET') ?: 'my-super-secret-123'; 
+
 $FILES_BASE_URL = 'http://172.16.2.68/hosriholding/public/uploads/';
 // ==============================================
 
@@ -76,17 +73,17 @@ function post_json_to_google($url, $payload, &$httpInfo = null) {
    if (function_exists('curl_version')) {
     $ch = curl_init($url);
 
-    // تفعيل POST و JSON
+  
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
 
-    // === التغييرات المهمة للتعامل مع redirect و HTTP version ===
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);   // يتبع أي redirect تلقائياً
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);           // الحد الأقصى لعدد الـ redirects
+   
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 5);          
     curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1); // force HTTP/1.1
 
-    // الهيدر
+  
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json; charset=utf-8',
         'Content-Length: ' . strlen($json)
@@ -95,7 +92,6 @@ function post_json_to_google($url, $payload, &$httpInfo = null) {
     // timeout
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
-    // تنفيذ الطلب
     $resp = curl_exec($ch);
     $err = curl_error($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -165,32 +161,3 @@ if ($CALL_GOOGLE && !empty($GOOGLE_WEBAPP_URL)) {
 }
 
 show('Success','Your application was received. Thank you.');
-
-/*
- * Example Google Apps Script (Code.gs) to receive this POST and append to a spreadsheet.
- * Deploy the Apps Script as: "Deploy -> New deployment -> Web app"
- * Access: "Anyone" (or "Anyone, even anonymous") so your server can POST without OAuth.
- * Replace SPREADSHEET_ID and expected secret.
-
-function doPost(e) {
-  var ss = SpreadsheetApp.openById('SPREADSHEET_ID');
-  var sheet = ss.getSheets()[0]; // or getSheetByName('Sheet1')
-  try {
-    var body = JSON.parse(e.postData.contents);
-    if (body._secret !== 'my-super-secret-123') {
-      return ContentService.createTextOutput(JSON.stringify({status:'error', message:'bad secret'})).setMimeType(ContentService.MimeType.JSON);
-    }
-    sheet.appendRow([new Date(), body.name || '', body.email || '', body.position || '', body.filename || '', body.original_filename || '', body.note || '']);
-    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({status:'error', message: String(err)})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-Notes / troubleshooting:
-- Make sure the Apps Script web app is deployed and you've copied the correct URL into $GOOGLE_WEBAPP_URL.
-- If your Apps Script requires the user to be signed in, your server POST will be blocked — choose "Anyone" access for testing.
-- Check google_post_error.log in the same folder if rows don't appear; it contains HTTP errors and non-JSON replies.
-- If your server is behind a firewall that blocks outbound HTTPS, the POST will fail.
-- If you want the actual file stored in Google Drive and a link added to the sheet, that's a separate flow requiring OAuth or a service account; ask if you want that.
-*/

@@ -1,9 +1,4 @@
-<!--
-  Fernand Hosri Group — Demo Layout (Commented Version)
-  Purpose: Demo landing layout with partners carousel, CSR section, and contact footer.
-  Notes: Professional inline comments were added to clarify structure, accessibility, and behaviour.
-  Keep asset files (images, CSS) in the same folder or update paths as needed.
--->
+
 <!doctype html>
 <html lang="en">
 
@@ -15,28 +10,18 @@
   <title>Fernand Hosri Group — Demo Layout</title>
   <link rel="icon" type="image/png" href="img/fhg-h-logo.png" />
 
-  <!--
-      Stylesheets:
-      - Style.css: main layout & components
-      - Topbar.css: styles specifically for the top navigation
-      Keep CSS separate for maintainability and easier overrides.
-    -->
+ 
   <link rel="stylesheet" href="css/join-us.css" />
   <link rel="stylesheet" href="css/Style.css" />
   <link rel="stylesheet" href="css/Topbar.css" />
   <link rel="stylesheet" href="instagram-section.css">
   <link rel="stylesheet" href="css/Our-Board.css">
 
-  <!-- Google font used across the site for a clean, professional UI -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
 
 </head>
 
 <body>
-  <!--
-      Page wrapper (page-1-2) contains two main visual sections (page-1, page-2).
-      Using semantic and ARIA attributes improves accessibility for screen readers.
-    -->
+  
   <div class="page-1-2">
 
     <!-- Header: company logos / primary branding -->
@@ -59,7 +44,7 @@
 
         <!-- Desktop nav (keep as you had it) -->
         <div class=" desktop-nav nav-links" role="menubar" aria-label="Primary" aria-hidden="false">
-          <a href="#wrap1" role="menuitem">About Us</a>
+          <a href="#About-Us" role="menuitem">About Us</a>
           <a href="#brands" role="menuitem">Sister companies</a>
           <a href="#csr" role="menuitem">CSR</a>
           <a href="#OurBoard" role="menuitem">Our Board</a>
@@ -78,11 +63,11 @@
     <aside class="mobile-drawer" id="mobile-menu" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="drawer-header">
         <div class="drawer-header-contant" style="display:flex;align-items:center;gap:10px">
-          <!-- <div class="logo" style="width:40px;height:40px">MH</div> -->
+     
           <img src="img/fhg-h-logo.png" alt="FH Group Right Logo" class="logoFM" />
           <div class="drawer-header-text">
             <div class="site-title">Hosri Group</div>
-            <!-- <div class="site-tag">Menu</div> -->
+          
           </div>
         </div>
         <button id="close-drawer" aria-label="Close menu"
@@ -90,7 +75,7 @@
       </div>
 
       <nav class="drawer-nav" aria-label="Mobile navigation">
-        <a href="#wrap1" role="menuitem">About Us</a>
+        <a href="#About-Us" role="menuitem">About Us</a>
         <a href="#brands" role="menuitem">Sister Companies</a>
         <a href="#csr" role="menuitem">CSR</a>
         <a href="#OurBoard" role="menuitem">Our Board</a>
@@ -98,20 +83,14 @@
         <a href="#contact" role="menuitem">Contact</a>
       </nav>
 
-      <!-- <div class="drawer-cta">
-            <a class="btn" href="#">Sign up</a>
-        </div> -->
+   
     </aside>
-    <!-- <main class="container" id="main-content"> -->
+   
 
-    <!--
-          Section: page-1
-          Contains: About text + partners carousel. Use descriptive aria-label for assistive tools.
-        -->
     <section class="page page-1" id="page1" aria-label="Main section with background 1">
 
       <!-- About block: short company description. Keep copy concise and factual. -->
-      <div class="wrap1" id="wrap1">
+      <div class="About-Us" id="About-Us">
         <div id="about" class="about-wrap">
           <h1 class="about-title">About Us</h1>
           <h3>Founded in 1966 - Fernand Hosri Group Holding</h3>
@@ -134,52 +113,19 @@
           </p>
         </div>
         <div class="News ">
-          <!-- <h1 class="about-title">News</h1>
-          <div class="images-stack">
-            <h3 class="img-title">Title 1</h3>
-            <img src="img/img1.jpeg" alt="Image 1">
-
-            <h3 class="img-title">Title 2</h3>
-            <img src="img/img2.jpeg" alt="Image 2">
-          </div> -->
+     
           <div class="social-card" role="region" aria-label="Instagram post card">
-            <!-- <h2 id="ig-title" class="social-title">Instagram Embed</h2>
-           -->
+            
             <div class="social-wrapper" id="social-wrapper" data-aspect="1/1">
 
-              <!-- <blockquote class="social-media" data-instgrm-permalink="https://www.instagram.com/p/DJ55ug9MbUS/"
-                data-instgrm-version="14" style="margin:0 auto; width:100%; max-width:540px;">
-                <a href="https://www.instagram.com/p/DJ55ug9MbUS/" target="_blank" rel="noopener noreferrer">
-                  View on Instagram
-                </a>
-              </blockquote>
-      
-              <div class="instagram-fallback" id="instagram-fallback" aria-live="polite">
-                <p>Instagram content failed to load.</p>
-                <p id="instagram-status">Loading Instagram post...</p>
-
-                <a href="https://www.instagram.com/p/DJ55ug9MbUS/" target="_blank" rel="noopener noreferrer">
-                  Open post on Instagram
-                </a>
-              </div>
-          
-              <noscript>
-                <div class="social-noscript">
-                  <a href="https://www.instagram.com/p/DJ55ug9MbUS/" target="_blank" rel="noopener noreferrer">
-                    Open Instagram post (JavaScript is disabled)
-                  </a>
-                </div>
-              </noscript> -->
-
+            
             </div>
           </div>
 
 
         </div>
 
-        <!-- <section class="social-section" aria-labelledby="ig-title">
-        
-      </section> -->
+      
 
 
 
@@ -219,19 +165,7 @@
           </div>
 
           <!-- Larger card demonstrates variety in card sizes for the carousel -->
-          <!-- <div class="partner-card large">
-                        <a href="https://sacotelurmet.com">
-                            <img src="img/s_urmet-Logo.png" alt="Sacotel Urmet" />
-                        </a>
-                        <div class="partner-text">
-                            <div class="partner-description">
-                                Exclusive ME representative of Urmet Group,
-                                
-                                Integrating building communication, automation, & security solutions.
-                            </div>
-                            <a href="https://sacotelurmet.com" class="partner-click-here">Learn More</a>
-                        </div>
-                    </div> -->
+  
 
           <!-- Repeatable partner-card pattern: keep markup consistent for easy styling and JS control -->
           <div class="partner-card">
@@ -432,31 +366,6 @@
                 <div class="jobs" id="jobs-list">
                   <!-- Jobs will be injected by JS -->
                 </div>
-                <!-- <div class="jobs" id="jobs-list">
-                  <article class="job" data-role="frontend">
-                    <div class="meta">
-                      <h4>Frontend Engineer</h4>
-                      <small>Remote — Full-time</small>
-                    </div>
-                    <div class="pill">Experienced</div>
-                  </article>
-
-                  <article class="job" data-role="backend">
-                    <div class="meta">
-                      <h4>Backend Engineer</h4>
-                      <small>On-site (Beirut) — 6+ months</small>
-                    </div>
-                    <div class="pill">Backend</div>
-                  </article>
-
-                  <article class="job" data-role="intern">
-                    <div class="meta">
-                      <h4>Intern - Dev</h4>
-                      <small>Part-time — Internship</small>
-                    </div>
-                    <div class="pill">Entry</div>
-                  </article>
-                </div> -->
 
                 <p class="note" style="margin-top:12px">
                   Common items in a "Join Us" section...
@@ -504,15 +413,9 @@
 
               <div>
                 <label for="position">Position</label>
-                <!-- <select id="position" name="position">
-                  <option value="">— Select —</option>
-                  <option value="frontend">Frontend Engineer</option>
-                  <option value="backend">Backend Engineer</option>
-                  <option value="devops">DevOps</option>
-                  <option value="intern">Intern</option>
-                </select> -->
+  
                 <select id="position" name="position" required>
-                  <!-- <option value="">— Select —</option> -->
+   
                 </select>
               </div>
 
@@ -525,7 +428,7 @@
                 <label>Upload CV</label>
                 <div id="drop" class="file-drop" tabindex="0" role="button"
                   aria-label="Upload CV (click or drag & drop)">
-                  <!-- خلي input مخفي زي ما بدّك -->
+                 
                   <input id="cv" name="cv" type="file" accept=".pdf,.doc,.docx" hidden />
                   <strong class="draganddrop">Drag & drop your CV here</strong>
                   <div class="file-info">or click to browse</div>
@@ -535,7 +438,7 @@
               </div>
 
               <div class="actions">
-                <!-- خلي الزر معطل بالافتراضي -->
+           
                 <button class="btn" type="submit" disabled>Send Application</button>
               </div>
 
@@ -603,9 +506,7 @@
             </p>
           </div>
         </div>
-        <!-- <div class="footer-inner-2">
-          <img src="img/signature.png" alt="Unleash" />
-        </div> -->
+ 
       </footer>
       <section class="footer2">
         <img src="img/signature.png" alt="Unleash signature" loading="lazy">
@@ -615,7 +516,7 @@
 
   </div>
   <script src="js/main.js" defer></script>
-  <!-- <script src="js/instagram-section.js" defer></script> -->
+
   <script async src="https://www.instagram.com/embed.js"></script>
   <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
   <script src="js/social-sheet.js"></script>

@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       console.log('[IG Debug] Calling instgrm.Embeds.process()');
       window.instgrm.Embeds.process();
-      watchForIframe(); // نبدأ المراقبة بعد المعالجة
+      watchForIframe();
+
     } else {
       console.log('[IG Debug] instgrm not ready yet');
       showFallback();
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(wrapper, { childList: true, subtree: true });
 
-    // fallback بعد 5 ثواني إذا ما انضاف iframe
+
     setTimeout(() => {
       if (!wrapper.querySelector('iframe')) {
         observer.disconnect();

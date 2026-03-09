@@ -242,106 +242,153 @@
     // ----------------------------------------
     // Join-us: drag/drop file + client validation + submit hook
     // ----------------------------------------
-    function initJoinUsForm() {
-        try {
-            const form = document.getElementById('apply-form');
-            const drop = document.getElementById('drop');
-            const cvInput = document.getElementById('cv');
-            const fileStatus = document.getElementById('file-status');
-            const fileError = document.getElementById('file-error');
-            if (!form || !drop || !cvInput || !fileStatus || !fileError) {
-                console.info('Join-us form: required elements missing — skipped');
-                return;
-            }
+        function initJoinUsForm() {
+            try {
+                const form = document.getElementById('apply-form');
+                const drop = document.getElementById('drop');
+                const cvInput = document.getElementById('cv');
+                const fileStatus = document.getElementById('file-status');
+                const fileError = document.getElementById('file-error');
+                const phoneInput = document.getElementById('phone'); // added phone input check
+                if (!form || !drop || !cvInput || !fileStatus || !fileError || !phoneInput) {
+                    console.info('Join-us form: required elements missing — skipped');
+                    return;
+                }
 
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const sending = document.getElementById('sending'); // optional
-            const result = document.getElementById('result'); // optional
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const sending = document.getElementById('sending'); // optional
+                const result = document.getElementById('result'); // optional
 
-            const MAX_SIZE = 2 * 1024 * 1024; // 2MB
-            const allowedExt = ['pdf', 'doc', 'docx'];
+                const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+                const allowedExt = ['pdf', 'doc', 'docx'];
 
-            let file = null;
+                let file = null;
 
-            function setError(msg) { fileError.textContent = msg || ''; }
-            function setStatus(msg) { fileStatus.textContent = msg || ''; }
+                function setError(msg) { fileError.textContent = msg || ''; }
+                function setStatus(msg) { fileStatus.textContent = msg || ''; }
 
-            function validateFile(f) {
-                if (!f) return 'Please attach a CV.';
-                if (f.size > MAX_SIZE) return 'File is too large (max 2 MB).';
-                const ext = (f.name || '').split('.').pop().toLowerCase();
-                if (!allowedExt.includes(ext)) return 'Unsupported file type.';
-                return '';
-            }
+                function validateFile(f) {
+                    if (!f) return 'Please attach a CV.';
+                    if (f.size > MAX_SIZE) return 'File is too large (max 2 MB).';
+                    const ext = (f.name || '').split('.').pop().toLowerCase();
+                    if (!allowedExt.includes(ext)) return 'Unsupported file type.';
+                    return '';
+                }
 
-            function updateUI() {
-                const err = validateFile(file);
-                if (err) { setError(err); if (submitBtn) submitBtn.disabled = true; }
-                else { setError(''); if (submitBtn) submitBtn.disabled = false; }
-                setStatus(file ? `${file.name} — ${Math.round(file.size / 1024)} KB` : 'No file chosen');
-            }
+                // simple phone validation:
+                function normalizePhone(p) {
+                    return (p || '').replace(/[\s-]/g, '');
+                }
+                function validatePhoneValue(p) {
+                    if (!p) return 'Please provide a phone number.';
+                    const np = normalizePhone(p);
+                    if (np[0] === '+') {
+                        if (!/^\+\d+$/.test(np)) return 'Invalid phone number.';
+                        const digits = np.slice(1);
+                        if (digits.length < 7 || digits.length > 15) return 'Invalid phone number.';
+                    } else {
+                        if (!/^\d+$/.test(np)) return 'Invalid phone number.';
+                        if (np.length < 7 || np.length > 15) return 'Invalid phone number.';
+                    }
+                    return '';
+                }
 
-            // interactions
-            drop.addEventListener('click', () => cvInput.click());
-            drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvInput.click(); } });
+                function updateUI() {
+                    const err = validateFile(file);
+                    if (err) { setError(err); if (submitBtn) submitBtn.disabled = true; }
+                    else { setError(''); if (submitBtn) submitBtn.disabled = false; }
+                    setStatus(file ? `${file.name} — ${Math.round(file.size / 1024)} KB` : 'No file chosen');
+                }
 
-            cvInput.addEventListener('change', (e) => { file = e.target.files[0]; updateUI(); });
+                // interactions
+                drop.addEventListener('click', () => cvInput.click());
+                drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvInput.click(); } });
 
-            drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('dragover'); });
-            drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
-            drop.addEventListener('drop', (e) => {
-                e.preventDefault(); drop.classList.remove('dragover');
-                const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-                if (f) { file = f; cvInput.files = e.dataTransfer.files; updateUI(); }
-            });
+                cvInput.addEventListener('change', (e) => { file = e.target.files[0]; updateUI(); });
 
-            // submit handler
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                setError(''); if (result) result.textContent = '';
-                const name = (form.querySelector('#name')?.value || '').trim();
-                const email = (form.querySelector('#email')?.value || '').trim();
-                if (!name) { setError('Please type your full name.'); return; }
-                if (!email || !/^\S+@\S+\.\S+$/.test(email)) { setError('Please provide a valid email.'); return; }
-                const fileErr = validateFile(file);
-                if (fileErr) { setError(fileErr); return; }
+                drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('dragover'); });
+                drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+                drop.addEventListener('drop', (e) => {
+                    e.preventDefault(); drop.classList.remove('dragover');
+                    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+                    if (f) { file = f; cvInput.files = e.dataTransfer.files; updateUI(); }
+                });
 
-                // show sending UI if present
-                if (submitBtn) submitBtn.disabled = true;
-                if (sending) sending.style.display = 'block';
+                // clear error when user types phone
+                phoneInput.addEventListener('input', () => { if (fileError.textContent) setError(''); });
 
-                const fd = new FormData(form);
-                if (file && !fd.get('cv')) fd.append('cv', file);
+                // submit handler
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    setError(''); if (result) result.textContent = '';
+                    const name = (form.querySelector('#name')?.value || '').trim();
+                    const email = (form.querySelector('#email')?.value || '').trim();
+                    const phone = (form.querySelector('#phone')?.value || '').trim();
 
-                // NOTE: uses the form.action endpoint — adjust server to accept multipart/form-data
-                fetch(form.action, { method: 'POST', body: fd })
-                    .then(async (res) => {
-                        if (sending) sending.style.display = 'none';
-                        if (submitBtn) submitBtn.disabled = false;
-                        if (res.ok) {
-                            if (result) result.textContent = 'Application sent — thank you!';
-                            form.reset();
-                            file = null;
-                            updateUI();
-                        } else {
-                            const txt = await res.text();
-                            if (result) result.textContent = 'Server error: ' + (txt || res.statusText);
-                        }
-                    })
-                    .catch((err) => {
-                        if (sending) sending.style.display = 'none';
-                        if (submitBtn) submitBtn.disabled = false;
-                        if (result) result.textContent = 'Network error: ' + err.message;
+                    if (!name) { setError('Please type your full name.'); return; }
+                    if (!email || !/^\S+@\S+\.\S+$/.test(email)) { setError('Please provide a valid email.'); return; }
+
+                    const phoneErr = validatePhoneValue(phone);
+                    if (phoneErr) { setError(phoneErr); return; }
+
+                    const fileErr = validateFile(file);
+                    if (fileErr) { setError(fileErr); return; }
+
+                    // show sending UI if present
+                    if (submitBtn) submitBtn.disabled = true;
+                    if (sending) sending.style.display = 'block';
+
+                    const fd = new FormData(form);
+                    if (file && !fd.get('cv')) fd.append('cv', file);
+
+                    ////////////////////////
+                        const sanitized = phone.replace(/[+\s-]/g, '');
+                        fd.set('phone', sanitized);
+
+
+
+
+
+                    ///////////////////////
+                  
+                    const fdObj = {};
+                    fd.forEach((value, key) => {
+                        
+                      
+                        if (value instanceof File) fdObj[key] = value.name;
+                        else fdObj[key] = value;
                     });
-            });
+                    console.log('Form data to send:', fdObj);
+                    ///////////////////////
+                    // NOTE: uses the form.action endpoint — adjust server to accept multipart/form-data
+                    fetch(form.action, { method: 'POST', body: fd })
+                        .then(async (res) => {
+                            if (sending) sending.style.display = 'none';
+                            if (submitBtn) submitBtn.disabled = false;
+                            if (res.ok) {
+                                if (result) result.textContent = 'Application sent — thank you!';
+                                form.reset();
+                                file = null;
+                                updateUI();
+                            } else {
+                                const txt = await res.text();
+                                if (result) result.textContent = 'Server error: ' + (txt || res.statusText);
+                            }
+                        })
+                        .catch((err) => {
+                            if (sending) sending.style.display = 'none';
+                            if (submitBtn) submitBtn.disabled = false;
+                            if (result) result.textContent = 'Network error: ' + err.message;
+                        });
+                });
 
-            // initialise UI
-            updateUI();
-            console.log('Join-us form initialized');
-        } catch (err) {
-            console.error('initJoinUsForm error', err);
+                // initialise UI
+                updateUI();
+                console.log('Join-us form initialized');
+            } catch (err) {
+                console.error('initJoinUsForm error', err);
+            }
         }
-    }
 
     // ----------------------------------------
     // Read-more toggles (delegated)
